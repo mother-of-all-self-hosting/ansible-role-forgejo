@@ -39,6 +39,20 @@ forgejo_config_database_name: forgejo
 forgejo_config_database_username: ''
 forgejo_config_database_password: ''
 
+# Enable this to send e-mail to watchers of a repository when something happens, like creating issues. Requires Mailer to be enabled.
+# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#service-service
+#
+# We enable this by default if the mailer is enabled, because it makes sense to have it used for more than just transactional emails.
+forgejo_config_service_enable_notify_email: "{{ forgejo_config_mailer_enabled }}"
+
+forgejo_config_mailer_enabled: false
+forgejo_config_mailer_from: ''
+forgejo_config_mailer_protocol: ''
+forgejo_config_mailer_smtp_addr: ''
+forgejo_config_mailer_smtp_port: 587
+forgejo_config_mailer_user: ''
+forgejo_config_mailer_passwd: ''
+
 forgejo_config_root_url: "{{ forgejo_scheme }}://{{ forgejo_hostname }}{{ forgejo_path_prefix }}"
 
 # Controls the RUN_USER configuration setting (`GITEA____RUN_USER` environment variable).
