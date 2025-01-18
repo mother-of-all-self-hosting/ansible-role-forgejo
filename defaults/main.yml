@@ -30,7 +30,10 @@ forgejo_ssh_port: 22
 forgejo_http_bind_port: ''
 forgejo_ssh_bind_port: "{{ forgejo_ssh_port }}"
 
-forgejo_systemd_required_systemd_services_list: ['docker.service']
+forgejo_systemd_required_systemd_services_list: "{{ forgejo_systemd_required_systemd_services_list_default + forgejo_systemd_required_systemd_services_list_auto + forgejo_systemd_required_systemd_services_list_custom }}"
+forgejo_systemd_required_systemd_services_list_default: "{{ [devture_systemd_docker_base_docker_service_name] if devture_systemd_docker_base_docker_service_name else [] }}"
+forgejo_systemd_required_systemd_services_list_auto: []
+forgejo_systemd_required_systemd_services_list_custom: []
 
 forgejo_config_database_type: postgres
 forgejo_config_database_hostname: ''
