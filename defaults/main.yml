@@ -55,6 +55,12 @@ forgejo_config_mailer_passwd: ''
 
 forgejo_config_root_url: "{{ forgejo_scheme }}://{{ forgejo_hostname }}{{ forgejo_path_prefix }}"
 
+# Controls the `FORGEJO__server__SSH_PORT` environment variable.
+forgejo_config_server_ssh_port: "{{ forgejo_ssh_port }}"
+
+# Controls the `FORGEJO__server__SSH_LISTEN_PORT` environment variable.
+forgejo_config_server_ssh_listen_port: 2222
+
 # Controls the RUN_USER configuration setting (`GITEA____RUN_USER` environment variable).
 #
 # This defaults to `git` in the upstream configuration.

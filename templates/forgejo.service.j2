@@ -25,7 +25,7 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			-p {{ forgejo_http_bind_port }}:3000 \
 			{% endif %}
 			{% if forgejo_ssh_bind_port != '' %}
-			-p {{ forgejo_ssh_bind_port }}:2222 \
+			-p {{ forgejo_ssh_bind_port }}:{{ forgejo_config_server_ssh_listen_port }} \
 			{% endif %}
 			{% if forgejo_container_add_host_domain_name %}
 			--add-host {{ forgejo_container_add_host_domain_name }}:{{ forgejo_container_add_host_domain_ip_address }} \
