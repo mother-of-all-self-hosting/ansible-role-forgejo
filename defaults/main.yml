@@ -1,5 +1,7 @@
 ---
 
+# Project source code URL: https://codeberg.org/forgejo/forgejo
+
 forgejo_enabled: true
 
 forgejo_version: 10.0.0
