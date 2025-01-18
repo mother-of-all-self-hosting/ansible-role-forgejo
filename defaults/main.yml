@@ -48,6 +48,10 @@ forgejo_config_database_password: ''
 # We enable this by default if the mailer is enabled, because it makes sense to have it used for more than just transactional emails.
 forgejo_config_service_enable_notify_email: "{{ forgejo_config_mailer_enabled }}"
 
+# Controls the `FORGEJO__service__DISABLE_REGISTRATION` environment variable.
+# Disables registration, after which only admins can create accounts for users.
+forgejo_config_service_disable_registration: true
+
 forgejo_config_mailer_enabled: false
 forgejo_config_mailer_from: ''
 forgejo_config_mailer_protocol: ''
