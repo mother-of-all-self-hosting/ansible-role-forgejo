@@ -106,6 +106,11 @@ forgejo_container_labels_traefik_entrypoints: web-secure
 forgejo_container_labels_traefik_tls: "{{ forgejo_container_labels_traefik_entrypoints != 'web' }}"
 forgejo_container_labels_traefik_tls_certResolver: default  # noqa var-naming
 
+# Controls whether a compression middleware will be injected into the middlewares list.
+# This compression middleware is supposed to be defined elsewhere (using labels or a File provider, etc.) and is merely referenced by this router.
+forgejo_container_labels_traefik_compression_middleware_enabled: false
+forgejo_container_labels_traefik_compression_middleware_name: ""
+
 # Controls which additional headers to attach to all HTTP requests.
 # To add your own custom request headers, use `forgejo_container_labels_traefik_additional_response_headers_custom`
 forgejo_container_labels_traefik_additional_request_headers: "{{ forgejo_container_labels_traefik_additional_request_headers_auto | combine(forgejo_container_labels_traefik_additional_request_headers_custom) }}"

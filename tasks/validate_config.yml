@@ -3,15 +3,16 @@
 - name: Fail if required Forgejo settings not defined
   ansible.builtin.fail:
     msg: >-
-      You need to define a required configuration setting (`{{ item }}`) for using this role.
-  when: "vars[item] == ''"
+      You need to define a required configuration setting (`{{ item.name }}`) for using this role.
+  when: "item.when | bool and vars[item.name] | length == 0"
   with_items:
-    - forgejo_hostname
-    - forgejo_uid
-    - forgejo_gid
-    - forgejo_config_database_hostname
-    - forgejo_config_database_username
-    - forgejo_config_database_password
+    - {'name': 'forgejo_hostname', when: true}
+    - {'name': 'forgejo_uid', when: true}
+    - {'name': 'forgejo_gid', when: true}
+    - {'name': 'forgejo_config_database_hostname', when: true}
+    - {'name': 'forgejo_config_database_username', when: true}
+    - {'name': 'forgejo_config_database_password', when: true}
+    - {'name': 'forgejo_container_labels_traefik_compression_middleware_name', when: "{{ forgejo_container_labels_traefik_compression_middleware_enabled }}"}
 
 - when: forgejo_container_labels_traefik_enabled | bool
   block:

@@ -7,6 +7,10 @@ traefik.docker.network={{ forgejo_container_labels_traefik_docker_network }}
 
 {% set middlewares = [] %}
 
+{% if forgejo_container_labels_traefik_compression_middleware_enabled %}
+{% set middlewares = middlewares + [forgejo_container_labels_traefik_compression_middleware_name] %}
+{% endif %}
+
 {% if forgejo_container_labels_traefik_path_prefix != '/' %}
 traefik.http.middlewares.{{ forgejo_identifier }}-slashless-redirect.redirectregex.regex=^({{ forgejo_container_labels_traefik_path_prefix | quote }})$
 traefik.http.middlewares.{{ forgejo_identifier }}-slashless-redirect.redirectregex.replacement=${1}/
