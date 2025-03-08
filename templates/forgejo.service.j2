@@ -20,7 +20,6 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--user={{ forgejo_uid }}:{{ forgejo_gid }} \
 			--cap-drop=ALL \
 			--read-only \
-			--hostname={{ forgejo_hostname }} \
 			{% if forgejo_http_bind_port != '' %}
 			-p {{ forgejo_http_bind_port }}:3000 \
 			{% endif %}
