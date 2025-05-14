@@ -4,7 +4,7 @@
 
 forgejo_enabled: true
 
-# renovate: datasource=docker depName=forgejo/forgejo versioning=semver
+# renovate: datasource=docker depName=codeberg.org/forgejo/forgejo versioning=semver
 forgejo_version: 11.0.0
 
 forgejo_identifier: forgejo
