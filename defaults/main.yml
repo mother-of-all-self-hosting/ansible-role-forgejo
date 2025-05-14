@@ -7,15 +7,20 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 # Project source code URL: https://codeberg.org/forgejo/forgejo
 
 forgejo_enabled: true
 
+forgejo_identifier: forgejo
+forgejo_base_path: "/{{ forgejo_identifier }}"
+forgejo_data_dir_path: "{{ forgejo_base_path }}/data"
+forgejo_config_dir_path: "{{ forgejo_base_path }}/config"
+
 # renovate: datasource=docker depName=codeberg.org/forgejo/forgejo versioning=semver
 forgejo_version: 11.0.1
 
-forgejo_identifier: forgejo
+forgejo_uid: ''
+forgejo_gid: ''
 
 forgejo_scheme: https
 
@@ -24,21 +29,12 @@ forgejo_hostname: ''
 
 forgejo_path_prefix: /
 
-forgejo_uid: ''
-forgejo_gid: ''
-
 forgejo_container_image: "{{ forgejo_container_image_registry_prefix }}forgejo/forgejo:{{ forgejo_container_image_tag }}"
 forgejo_container_image_tag: "{{ forgejo_version }}-rootless"
 forgejo_container_image_registry_prefix: "{{ forgejo_container_image_registry_prefix_upstream }}"
 forgejo_container_image_registry_prefix_upstream: "{{ forgejo_container_image_registry_prefix_upstream_default }}"
 forgejo_container_image_registry_prefix_upstream_default: codeberg.org/
 forgejo_container_image_force_pull: "{{ forgejo_container_image.endswith(':latest') }}"
-
-forgejo_base_path: "/{{ forgejo_identifier }}"
-forgejo_data_dir_path: "{{ forgejo_base_path }}/data"
-forgejo_config_dir_path: "{{ forgejo_base_path }}/config"
-
-forgejo_ssh_port: 22
 
 # Controls whether the container exposes its HTTP port (tcp/3000 in the container).
 #
@@ -50,86 +46,20 @@ forgejo_container_http_host_bind_port: ''
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:2586"), or empty string to not expose.
 forgejo_container_ssh_host_bind_port: "{{ forgejo_ssh_port }}"
 
-forgejo_systemd_required_systemd_services_list: "{{ forgejo_systemd_required_systemd_services_list_default + forgejo_systemd_required_systemd_services_list_auto + forgejo_systemd_required_systemd_services_list_custom }}"
-forgejo_systemd_required_systemd_services_list_default: "{{ [devture_systemd_docker_base_docker_service_name] if devture_systemd_docker_base_docker_service_name else [] }}"
-forgejo_systemd_required_systemd_services_list_auto: []
-forgejo_systemd_required_systemd_services_list_custom: []
+forgejo_container_network: "{{ forgejo_identifier }}"
 
-# List of systemd services that the Forgejo systemd service wants
-forgejo_systemd_wanted_services_list: []
-
-forgejo_config_database_type: postgres
-forgejo_config_database_hostname: ''
-forgejo_config_database_port: 5432
-forgejo_config_database_name: forgejo
-forgejo_config_database_username: ''
-forgejo_config_database_password: ''
-
-# Enable this to send e-mail to watchers of a repository when something happens, like creating issues. Requires Mailer to be enabled.
-# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#service-service
-#
-# We enable this by default if the mailer is enabled, because it makes sense to have it used for more than just transactional emails.
-forgejo_config_service_enable_notify_email: "{{ forgejo_config_mailer_enabled }}"
-
-# Controls the `FORGEJO__service__DISABLE_REGISTRATION` environment variable.
-# Disables registration, after which only admins can create accounts for users.
-forgejo_config_service_disable_registration: true
-
-# Controls the `FORGEJO__service__ENABLE_OPENID_SIGNIN` environment variable.
-# Enables OpenID sign-in.
-# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#openid-openid
-forgejo_config_service_enable_openid_signin: true
-
-# Controls the `FORGEJO__service__ENABLE_OPENID_SIGNUP` environment variable.
-# Enables OpenID sign-up.
-# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#openid-openid
-forgejo_config_service_enable_openid_signup: "{{ not forgejo_config_service_disable_registration }}"
-
-forgejo_config_mailer_enabled: false
-forgejo_config_mailer_from: ''
-forgejo_config_mailer_protocol: ''
-forgejo_config_mailer_smtp_addr: ''
-forgejo_config_mailer_smtp_port: 587
-forgejo_config_mailer_user: ''
-forgejo_config_mailer_passwd: ''
-
-forgejo_config_root_url: "{{ forgejo_scheme }}://{{ forgejo_hostname }}{{ forgejo_path_prefix }}"
-
-# Controls the `FORGEJO__server__SSH_PORT` environment variable.
-forgejo_config_server_ssh_port: "{{ forgejo_ssh_port }}"
+# The port number in the container
+forgejo_container_http_port: 3000
 
 # Controls the `FORGEJO__server__SSH_LISTEN_PORT` environment variable.
 forgejo_container_ssh_port: 2222
 
-# Controls the RUN_USER configuration setting (`GITEA____RUN_USER` environment variable).
-#
-# This defaults to `git` in the upstream configuration.
-#
-# On startup, Forgejo checks if the resolved username for the user it works with matches the RUN_USER.
-#
-# Because we run the container with a custom user (forgejo_uid),
-# and not with uid=1000 matching the git user and inside the container,
-# unless we unset this, we'd get an error message:
-# > `Expect user 'git' but current user is: `
-# The relevant check is here: https://github.com/go-forgejo/forgejo/blob/ccd3a55bf4f07a390e13d48100c58fb937fd3dcf/modules/setting/setting.go#L297-L300C4
-#
-# Unsetting this to an empty string makes it match. Unless you forgejo_uid accidentally hits some other user that is part of the container's /etc/passwd file.
-forgejo_config_run_user: "{{ 'git' if forgejo_uid | string == '1000' else '' }}"
-
-# When integrating Forgejo with Woodpecker CI, and if Woodpecker is
-# served under a subpath (e.g. `https://forgejo.host/ci`), it is
-# necessary to use Docker's `--add-host` option to point Forgejo to
-# the external host IP, so that webhook calls to Woodpecker can work.
-#
-# For example:
-#
-#  forgejo_container_add_host_domain_name: "{{ devture_woodpecker_ci_server_hostname }}"
-#  forgejo_container_add_host_domain_ip_address: "{{ ansible_host }}"
-#
-# Don't forget to also update `webhook.ALLOWED_HOST_LIST` on Forgejo's
-# app.ini config file.
-forgejo_container_add_host_domain_name: ''
-forgejo_container_add_host_domain_ip_address: ''
+# A list of additional container networks that the container would be connected to.
+# The playbook does not create these networks, so make sure they already exist.
+# Use this to expose this container to a reverse proxy, which runs in a different container network.
+forgejo_container_additional_networks: "{{ forgejo_container_additional_networks_auto + forgejo_container_additional_networks_custom }}"
+forgejo_container_additional_networks_auto: []
+forgejo_container_additional_networks_custom: []
 
 # forgejo_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `roles/custom/forgejo/templates/labels.j2` for details.
@@ -184,29 +114,6 @@ forgejo_container_labels_traefik_additional_response_headers_custom: {}
 #   another.label="here"
 forgejo_container_labels_additional_labels: ''
 
-# forgejo_container_additional_environment_variables contains a multiline string with additional environment variables to pass to the container.
-#
-# Example:
-# forgejo_container_additional_environment_variables: |
-#   VAR=1
-#   ANOTHER=value
-forgejo_container_additional_environment_variables: ''
-
-forgejo_container_network: "{{ forgejo_identifier }}"
-
-# The port number in the container
-forgejo_container_http_port: 3000
-
-# A list of additional container networks that the container would be connected to.
-# The playbook does not create these networks, so make sure they already exist.
-# Use this to expose this container to a reverse proxy, which runs in a different container network.
-forgejo_container_additional_networks: "{{ forgejo_container_additional_networks_auto + forgejo_container_additional_networks_custom }}"
-forgejo_container_additional_networks_auto: []
-forgejo_container_additional_networks_custom: []
-
-# Additional environment variables.
-forgejo_environment_variables_additional_variables: ''
-
 # Specifies the value of the `X-XSS-Protection` header
 # Stops pages from loading when they detect reflected cross-site scripting (XSS) attacks.
 #
@@ -253,3 +160,94 @@ forgejo_floc_optout_enabled: true
 # - https://hstspreload.org/#opt-in
 # See: `forgejo_http_header_strict_transport_security`
 forgejo_hsts_preload_enabled: false
+
+forgejo_systemd_required_systemd_services_list: "{{ forgejo_systemd_required_systemd_services_list_default + forgejo_systemd_required_systemd_services_list_auto + forgejo_systemd_required_systemd_services_list_custom }}"
+forgejo_systemd_required_systemd_services_list_default: "{{ [devture_systemd_docker_base_docker_service_name] if devture_systemd_docker_base_docker_service_name else [] }}"
+forgejo_systemd_required_systemd_services_list_auto: []
+forgejo_systemd_required_systemd_services_list_custom: []
+
+# List of systemd services that the Forgejo systemd service wants
+forgejo_systemd_wanted_services_list: []
+
+forgejo_config_database_type: postgres
+forgejo_config_database_hostname: ''
+forgejo_config_database_port: 5432
+forgejo_config_database_name: forgejo
+forgejo_config_database_username: ''
+forgejo_config_database_password: ''
+
+forgejo_config_mailer_enabled: false
+forgejo_config_mailer_from: ''
+forgejo_config_mailer_protocol: ''
+forgejo_config_mailer_smtp_addr: ''
+forgejo_config_mailer_smtp_port: 587
+forgejo_config_mailer_user: ''
+forgejo_config_mailer_passwd: ''
+
+forgejo_config_root_url: "{{ forgejo_scheme }}://{{ forgejo_hostname }}{{ forgejo_path_prefix }}"
+
+forgejo_ssh_port: 22
+
+# Controls the `FORGEJO__server__SSH_PORT` environment variable.
+forgejo_config_server_ssh_port: "{{ forgejo_ssh_port }}"
+
+# Enable this to send e-mail to watchers of a repository when something happens, like creating issues. Requires Mailer to be enabled.
+# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#service-service
+#
+# We enable this by default if the mailer is enabled, because it makes sense to have it used for more than just transactional emails.
+forgejo_config_service_enable_notify_email: "{{ forgejo_config_mailer_enabled }}"
+
+# Controls the `FORGEJO__service__DISABLE_REGISTRATION` environment variable.
+# Disables registration, after which only admins can create accounts for users.
+forgejo_config_service_disable_registration: true
+
+# Controls the `FORGEJO__service__ENABLE_OPENID_SIGNIN` environment variable.
+# Enables OpenID sign-in.
+# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#openid-openid
+forgejo_config_service_enable_openid_signin: true
+
+# Controls the `FORGEJO__service__ENABLE_OPENID_SIGNUP` environment variable.
+# Enables OpenID sign-up.
+# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#openid-openid
+forgejo_config_service_enable_openid_signup: "{{ not forgejo_config_service_disable_registration }}"
+
+# Controls the RUN_USER configuration setting (`GITEA____RUN_USER` environment variable).
+#
+# This defaults to `git` in the upstream configuration.
+#
+# On startup, Forgejo checks if the resolved username for the user it works with matches the RUN_USER.
+#
+# Because we run the container with a custom user (forgejo_uid),
+# and not with uid=1000 matching the git user and inside the container,
+# unless we unset this, we'd get an error message:
+# > `Expect user 'git' but current user is: `
+# The relevant check is here: https://github.com/go-forgejo/forgejo/blob/ccd3a55bf4f07a390e13d48100c58fb937fd3dcf/modules/setting/setting.go#L297-L300C4
+#
+# Unsetting this to an empty string makes it match. Unless you forgejo_uid accidentally hits some other user that is part of the container's /etc/passwd file.
+forgejo_config_run_user: "{{ 'git' if forgejo_uid | string == '1000' else '' }}"
+
+# When integrating Forgejo with Woodpecker CI, and if Woodpecker is
+# served under a subpath (e.g. `https://forgejo.host/ci`), it is
+# necessary to use Docker's `--add-host` option to point Forgejo to
+# the external host IP, so that webhook calls to Woodpecker can work.
+#
+# For example:
+#
+#  forgejo_container_add_host_domain_name: "{{ devture_woodpecker_ci_server_hostname }}"
+#  forgejo_container_add_host_domain_ip_address: "{{ ansible_host }}"
+#
+# Don't forget to also update `webhook.ALLOWED_HOST_LIST` on Forgejo's
+# app.ini config file.
+forgejo_container_add_host_domain_name: ''
+forgejo_container_add_host_domain_ip_address: ''
+
+# forgejo_container_additional_environment_variables contains a multiline string with additional environment variables to pass to the container.
+#
+# Example:
+# forgejo_container_additional_environment_variables: |
+#   VAR=1
+#   ANOTHER=value
+forgejo_container_additional_environment_variables: ''
+
+# Additional environment variables.
+forgejo_environment_variables_additional_variables: ''
