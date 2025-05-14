@@ -27,6 +27,7 @@ forgejo_scheme: https
 # The fully-qualified name of your Forgejo server (e.g. `forgejo.example.com`)
 forgejo_hostname: ''
 
+# The path at which Forgejo is exposed.
 forgejo_path_prefix: /
 
 forgejo_container_image: "{{ forgejo_container_image_registry_prefix }}forgejo/forgejo:{{ forgejo_container_image_tag }}"
@@ -46,6 +47,7 @@ forgejo_container_http_host_bind_port: ''
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:2586"), or empty string to not expose.
 forgejo_container_ssh_host_bind_port: "{{ forgejo_ssh_port }}"
 
+# The base container network. It will be auto-created by this role if it doesn't exist already.
 forgejo_container_network: "{{ forgejo_identifier }}"
 
 # The port number in the container
@@ -161,6 +163,7 @@ forgejo_floc_optout_enabled: true
 # See: `forgejo_http_header_strict_transport_security`
 forgejo_hsts_preload_enabled: false
 
+# List of systemd services that the Forgejo systemd service depends on
 forgejo_systemd_required_systemd_services_list: "{{ forgejo_systemd_required_systemd_services_list_default + forgejo_systemd_required_systemd_services_list_auto + forgejo_systemd_required_systemd_services_list_custom }}"
 forgejo_systemd_required_systemd_services_list_default: "{{ [devture_systemd_docker_base_docker_service_name] if devture_systemd_docker_base_docker_service_name else [] }}"
 forgejo_systemd_required_systemd_services_list_auto: []
