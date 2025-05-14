@@ -48,6 +48,6 @@
 
 - name: Ensure Forgejo systemd service installed
   ansible.builtin.template:
-    src: "{{ role_path }}/templates/forgejo.service.j2"
+    src: "{{ role_path }}/templates/systemd/forgejo.service.j2"
     dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ forgejo_identifier }}.service"
     mode: 0640
