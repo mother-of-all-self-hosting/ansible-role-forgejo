@@ -187,6 +187,9 @@ forgejo_container_additional_environment_variables: ''
 
 forgejo_container_network: "{{ forgejo_identifier }}"
 
+# The port number in the container
+forgejo_container_http_port: 3000
+
 # A list of additional container networks that the container would be connected to.
 # The playbook does not create these networks, so make sure they already exist.
 # Use this to expose this container to a reverse proxy, which runs in a different container network.
