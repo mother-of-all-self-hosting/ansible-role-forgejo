@@ -40,7 +40,11 @@ forgejo_config_dir_path: "{{ forgejo_base_path }}/config"
 
 forgejo_ssh_port: 22
 
-forgejo_http_bind_port: ''
+# Controls whether the container exposes its HTTP port (tcp/3000 in the container).
+#
+# Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:2586"), or empty string to not expose.
+forgejo_container_http_host_bind_port: ''
+
 forgejo_ssh_bind_port: "{{ forgejo_ssh_port }}"
 
 forgejo_systemd_required_systemd_services_list: "{{ forgejo_systemd_required_systemd_services_list_default + forgejo_systemd_required_systemd_services_list_auto + forgejo_systemd_required_systemd_services_list_custom }}"
