@@ -16,6 +16,10 @@
     - {'old': 'forgejo_ssh_bind_port', 'new': 'forgejo_container_ssh_host_bind_port'}
     - {'old': 'forgejo_config_server_ssh_listen_port', 'new': 'forgejo_container_ssh_port'}
     - {'old': 'forgejo_container_additional_environment_variables', 'new': 'forgejo_environment_variables_additional_variables'}
+    - {'old': 'forgejo_systemd_required_systemd_services_list', 'new': 'forgejo_systemd_required_services_list'}
+    - {'old': 'forgejo_systemd_required_systemd_services_list_default', 'new': 'forgejo_systemd_required_services_list_default'}
+    - {'old': 'forgejo_systemd_required_systemd_services_list_auto', 'new': 'forgejo_systemd_required_services_list_auto'}
+    - {'old': 'forgejo_systemd_required_systemd_services_list_custom', 'new': 'forgejo_systemd_required_services_list_custom'}
 
 - name: Fail if required Forgejo settings not defined
   ansible.builtin.fail:
