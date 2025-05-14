@@ -1,5 +1,8 @@
-# SPDX-FileCopyrightText: 2023 MASH project contributors
-# SPDX-FileCopyrightText: 2025 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2023 - 2024 Nikita Chernyi
+# SPDX-FileCopyrightText: 2023 - 2025 MASH project contributors
+# SPDX-FileCopyrightText: 2023 - 2025 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2024 Sergio Durigan Junior
+# SPDX-FileCopyrightText: 2025 Suguru Hirahara
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -26,8 +29,10 @@ forgejo_gid: ''
 
 forgejo_container_image: "{{ forgejo_container_image_registry_prefix }}forgejo/forgejo:{{ forgejo_container_image_tag }}"
 forgejo_container_image_tag: "{{ forgejo_version }}-rootless"
+forgejo_container_image_registry_prefix: "{{ forgejo_container_image_registry_prefix_upstream }}"
+forgejo_container_image_registry_prefix_upstream: "{{ forgejo_container_image_registry_prefix_upstream_default }}"
+forgejo_container_image_registry_prefix_upstream_default: codeberg.org/
 forgejo_container_image_force_pull: "{{ forgejo_container_image.endswith(':latest') }}"
-forgejo_container_image_registry_prefix: codeberg.org/
 
 forgejo_base_path: "/{{ forgejo_identifier }}"
 forgejo_data_dir_path: "{{ forgejo_base_path }}/data"
