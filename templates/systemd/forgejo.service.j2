@@ -1,6 +1,8 @@
 {#
+SPDX-FileCopyrightText: 2023 - 2025 Slavi Pantaleev
 SPDX-FileCopyrightText: 2023 MASH project contributors
-SPDX-FileCopyrightText: 2025 Slavi Pantaleev
+SPDX-FileCopyrightText: 2024 Nikita Chernyi
+SPDX-FileCopyrightText: 2025 Suguru Hirahara
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -10,6 +12,9 @@ Description=Forgejo ({{ forgejo_identifier }})
 {% for service in forgejo_systemd_required_systemd_services_list %}
 Requires={{ service }}
 After={{ service }}
+{% endfor %}
+{% for service in forgejo_systemd_wanted_services_list %}
+Wants={{ service }}
 {% endfor %}
 DefaultDependencies=no
 
