@@ -214,7 +214,7 @@ forgejo_config_service_enable_openid_signin: true
 # See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#openid-openid
 forgejo_config_service_enable_openid_signup: "{{ not forgejo_config_service_disable_registration }}"
 
-# Controls the RUN_USER configuration setting (`GITEA____RUN_USER` environment variable).
+# Controls the RUN_USER configuration setting (`FORGEJO____RUN_USER=` environment variable).
 #
 # This defaults to `git` in the upstream configuration.
 #
@@ -224,7 +224,6 @@ forgejo_config_service_enable_openid_signup: "{{ not forgejo_config_service_disa
 # and not with uid=1000 matching the git user and inside the container,
 # unless we unset this, we'd get an error message:
 # > `Expect user 'git' but current user is: `
-# The relevant check is here: https://github.com/go-forgejo/forgejo/blob/ccd3a55bf4f07a390e13d48100c58fb937fd3dcf/modules/setting/setting.go#L297-L300C4
 #
 # Unsetting this to an empty string makes it match. Unless you forgejo_uid accidentally hits some other user that is part of the container's /etc/passwd file.
 forgejo_config_run_user: "{{ 'git' if forgejo_uid | string == '1000' else '' }}"
