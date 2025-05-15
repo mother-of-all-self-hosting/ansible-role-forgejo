@@ -17,7 +17,7 @@
     - "{{ forgejo_data_dir_path }}"
     - "{{ forgejo_config_dir_path }}"
 
-- name: Ensure Forgejo support files created
+- name: Ensure Forgejo support files installed
   ansible.builtin.template:
     src: "{{ role_path }}/templates/{{ item }}.j2"
     dest: "{{ forgejo_base_path }}/{{ item }}"
@@ -46,7 +46,7 @@
     driver: bridge
     driver_options: "{{ devture_systemd_docker_base_container_networks_driver_options }}"
 
-- name: Ensure Forgejo systemd service installed
+- name: Ensure Forgejo systemd service is present
   ansible.builtin.template:
     src: "{{ role_path }}/templates/systemd/forgejo.service.j2"
     dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ forgejo_identifier }}.service"
