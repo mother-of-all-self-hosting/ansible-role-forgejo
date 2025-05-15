@@ -20,28 +20,28 @@ ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_s
 ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ forgejo_identifier }} 2>/dev/null'
 
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
-			--rm \
-			--name={{ forgejo_identifier }} \
-			--log-driver=none \
-			--user={{ forgejo_uid }}:{{ forgejo_gid }} \
-			--cap-drop=ALL \
-			--read-only \
-			--network={{ forgejo_container_network }} \
-			{% if forgejo_http_bind_port != '' %}
-			-p {{ forgejo_http_bind_port }}:3000 \
-			{% endif %}
-			{% if forgejo_ssh_bind_port != '' %}
-			-p {{ forgejo_ssh_bind_port }}:{{ forgejo_config_server_ssh_listen_port }} \
-			{% endif %}
-			{% if forgejo_container_add_host_domain_name %}
-			--add-host {{ forgejo_container_add_host_domain_name }}:{{ forgejo_container_add_host_domain_ip_address }} \
-			{% endif %}
-			--env-file={{ forgejo_base_path }}/env \
-			--label-file={{ forgejo_base_path }}/labels \
-			--mount type=bind,src={{ forgejo_data_dir_path }},dst=/var/lib/gitea \
-			--mount type=bind,src={{ forgejo_config_dir_path }},dst=/etc/gitea \
-			--tmpfs=/tmp:rw,noexec,nosuid,size=128m \
-			{{ forgejo_container_image }}
+      --rm \
+      --name={{ forgejo_identifier }} \
+      --log-driver=none \
+      --user={{ forgejo_uid }}:{{ forgejo_gid }} \
+      --cap-drop=ALL \
+      --read-only \
+      --network={{ forgejo_container_network }} \
+      {% if forgejo_http_bind_port != '' %}
+      -p {{ forgejo_http_bind_port }}:3000 \
+      {% endif %}
+      {% if forgejo_ssh_bind_port != '' %}
+      -p {{ forgejo_ssh_bind_port }}:{{ forgejo_config_server_ssh_listen_port }} \
+      {% endif %}
+      {% if forgejo_container_add_host_domain_name %}
+      --add-host {{ forgejo_container_add_host_domain_name }}:{{ forgejo_container_add_host_domain_ip_address }} \
+      {% endif %}
+      --env-file={{ forgejo_base_path }}/env \
+      --label-file={{ forgejo_base_path }}/labels \
+      --mount type=bind,src={{ forgejo_data_dir_path }},dst=/var/lib/gitea \
+      --mount type=bind,src={{ forgejo_config_dir_path }},dst=/etc/gitea \
+      --tmpfs=/tmp:rw,noexec,nosuid,size=128m \
+      {{ forgejo_container_image }}
 
 {% for network in forgejo_container_additional_networks %}
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} network connect {{ network }} {{ forgejo_identifier }}
