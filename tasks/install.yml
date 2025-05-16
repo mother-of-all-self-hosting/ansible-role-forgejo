@@ -9,7 +9,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: "0750"
+    mode: 0750
     owner: "{{ forgejo_uid }}"
     group: "{{ forgejo_gid }}"
   with_items:
