@@ -64,7 +64,7 @@ forgejo_container_additional_networks_auto: []
 forgejo_container_additional_networks_custom: []
 
 # forgejo_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
-# See `roles/custom/forgejo/templates/labels.j2` for details.
+# See `../templates/labels.j2` for details.
 #
 # To inject your own other container labels, see `forgejo_container_labels_additional_labels`.
 forgejo_container_labels_traefik_enabled: true
@@ -108,7 +108,7 @@ forgejo_container_labels_traefik_additional_response_headers_auto: |
 forgejo_container_labels_traefik_additional_response_headers_custom: {}
 
 # forgejo_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
-# See `roles/custom/forgejo/templates/labels.j2` for details.
+# See `../templates/labels.j2` for details.
 #
 # Example:
 # forgejo_container_labels_additional_labels: |
