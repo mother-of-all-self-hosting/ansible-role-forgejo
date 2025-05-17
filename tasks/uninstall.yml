@@ -18,12 +18,12 @@
         enabled: false
         daemon_reload: true
 
-    - name: Ensure Forgejo systemd service does not exists
+    - name: Ensure Forgejo systemd service does not exist
       ansible.builtin.file:
         path: "{{ devture_systemd_docker_base_systemd_path }}/{{ forgejo_identifier }}.service"
         state: absent
 
-    - name: Ensure Forgejo path doesn't exist
+    - name: Ensure Forgejo path does not exist
       ansible.builtin.file:
         path: "{{ forgejo_base_path }}"
         state: absent
