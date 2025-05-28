@@ -4,12 +4,11 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Ensure Forgejo paths exist
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0750
+    mode: "0750"
     owner: "{{ forgejo_uid }}"
     group: "{{ forgejo_gid }}"
   with_items:
@@ -23,7 +22,7 @@
     dest: "{{ forgejo_base_path }}/{{ item }}"
     owner: "{{ forgejo_uid }}"
     group: "{{ forgejo_gid }}"
-    mode: 0640
+    mode: "0640"
   with_items:
     - env
     - labels
@@ -50,4 +49,4 @@
   ansible.builtin.template:
     src: "{{ role_path }}/templates/systemd/forgejo.service.j2"
     dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ forgejo_identifier }}.service"
-    mode: 0644
+    mode: "0644"

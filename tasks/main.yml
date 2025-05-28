@@ -4,27 +4,25 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Perform Forgejo installation tasks
-  block:
-    - name: Validate Forgejo configuration
-      when: forgejo_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
-
-    - name: Install Forgejo
-      when: forgejo_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
   tags:
     - setup-all
     - setup-forgejo
     - install-all
     - install-forgejo
+  block:
+    - name: Validate Forgejo configuration
+      when: forgejo_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
+    - name: Install Forgejo
+      when: forgejo_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
 
 - name: Perform Forgejo uninstallation tasks
+  tags:
+    - setup-all
+    - setup-forgejo
   block:
     - name: Uninstall Forgejo
       when: not forgejo_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
-  tags:
-    - setup-all
-    - setup-forgejo

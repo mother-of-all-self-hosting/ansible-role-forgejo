@@ -3,13 +3,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Check existence of Forgejo systemd service
   ansible.builtin.stat:
     path: "{{ devture_systemd_docker_base_systemd_path }}/{{ forgejo_identifier }}.service"
   register: forgejo_service_stat
 
-- when: forgejo_service_stat.stat.exists | bool
+- name: Uninstall Forgejo systemd services and files
+  when: forgejo_service_stat.stat.exists | bool
   block:
     - name: Ensure Forgejo systemd service is stopped
       ansible.builtin.service:

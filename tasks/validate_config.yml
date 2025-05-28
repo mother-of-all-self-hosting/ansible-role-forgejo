@@ -4,7 +4,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: (Deprecation) Catch and report renamed settings
   ansible.builtin.fail:
     msg: >-
@@ -12,14 +11,14 @@
       Please change your configuration to rename the variable (`{{ item.old }}` -> `{{ item.new }}`).
   when: "item.old in vars"
   with_items:
-    - {'old': 'forgejo_http_bind_port', 'new': 'forgejo_container_http_host_bind_port'}
-    - {'old': 'forgejo_ssh_bind_port', 'new': 'forgejo_container_ssh_host_bind_port'}
-    - {'old': 'forgejo_config_server_ssh_listen_port', 'new': 'forgejo_container_ssh_port'}
-    - {'old': 'forgejo_container_additional_environment_variables', 'new': 'forgejo_environment_variables_additional_variables'}
-    - {'old': 'forgejo_systemd_required_systemd_services_list', 'new': 'forgejo_systemd_required_services_list'}
-    - {'old': 'forgejo_systemd_required_systemd_services_list_default', 'new': 'forgejo_systemd_required_services_list_default'}
-    - {'old': 'forgejo_systemd_required_systemd_services_list_auto', 'new': 'forgejo_systemd_required_services_list_auto'}
-    - {'old': 'forgejo_systemd_required_systemd_services_list_custom', 'new': 'forgejo_systemd_required_services_list_custom'}
+    - { "old": "forgejo_http_bind_port", "new": "forgejo_container_http_host_bind_port" }
+    - { "old": "forgejo_ssh_bind_port", "new": "forgejo_container_ssh_host_bind_port" }
+    - { "old": "forgejo_config_server_ssh_listen_port", "new": "forgejo_container_ssh_port" }
+    - { "old": "forgejo_container_additional_environment_variables", "new": "forgejo_environment_variables_additional_variables" }
+    - { "old": "forgejo_systemd_required_systemd_services_list", "new": "forgejo_systemd_required_services_list" }
+    - { "old": "forgejo_systemd_required_systemd_services_list_default", "new": "forgejo_systemd_required_services_list_default" }
+    - { "old": "forgejo_systemd_required_systemd_services_list_auto", "new": "forgejo_systemd_required_services_list_auto" }
+    - { "old": "forgejo_systemd_required_systemd_services_list_custom", "new": "forgejo_systemd_required_services_list_custom" }
 
 - name: Fail if required Forgejo settings not defined
   ansible.builtin.fail:
@@ -27,15 +26,17 @@
       You need to define a required configuration setting (`{{ item.name }}`) for using this role.
   when: "item.when | bool and vars[item.name] | length == 0"
   with_items:
-    - {'name': 'forgejo_hostname', when: true}
-    - {'name': 'forgejo_uid', when: true}
-    - {'name': 'forgejo_gid', when: true}
-    - {'name': 'forgejo_config_database_hostname', when: true}
-    - {'name': 'forgejo_config_database_username', when: true}
-    - {'name': 'forgejo_config_database_password', when: true}
-    - {'name': 'forgejo_container_labels_traefik_compression_middleware_name', when: "{{ forgejo_container_labels_traefik_compression_middleware_enabled }}"}
+    - { "name": "forgejo_hostname", when: true }
+    - { "name": "forgejo_uid", when: true }
+    - { "name": "forgejo_gid", when: true }
+    - { "name": "forgejo_config_database_hostname", when: true }
+    - { "name": "forgejo_config_database_username", when: true }
+    - { "name": "forgejo_config_database_password", when: true }
+    - "name": "forgejo_container_labels_traefik_compression_middleware_name"
+      when: "{{ forgejo_container_labels_traefik_compression_middleware_enabled }}"
 
-- when: forgejo_container_labels_traefik_enabled | bool
+- name: Run if Traefik is enabled
+  when: forgejo_container_labels_traefik_enabled | bool
   block:
     - name: Fail if required Forgejo Traefik settings not defined
       ansible.builtin.fail:
