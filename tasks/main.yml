@@ -5,6 +5,7 @@
 
 ---
 - name: Perform Forgejo installation tasks
+  when: forgejo_enabled | bool
   tags:
     - setup-all
     - setup-forgejo
@@ -12,17 +13,15 @@
     - install-forgejo
   block:
     - name: Validate Forgejo configuration
-      when: forgejo_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
     - name: Install Forgejo
-      when: forgejo_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
 
 - name: Perform Forgejo uninstallation tasks
+  when: not forgejo_enabled | bool
   tags:
     - setup-all
     - setup-forgejo
   block:
     - name: Uninstall Forgejo
-      when: not forgejo_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
