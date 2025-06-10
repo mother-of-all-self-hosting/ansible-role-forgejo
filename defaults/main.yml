@@ -37,6 +37,13 @@ forgejo_container_image_registry_prefix_upstream: "{{ forgejo_container_image_re
 forgejo_container_image_registry_prefix_upstream_default: codeberg.org/
 forgejo_container_image_force_pull: "{{ forgejo_container_image.endswith(':latest') }}"
 
+forgejo_container_image_self_build: false
+forgejo_container_image_name: "forgejo/forgejo:{{ forgejo_container_repo_version }}"
+forgejo_container_repo: "https://codeberg.org/forgejo/forgejo.git"
+forgejo_container_repo_version: "{{ 'v' + forgejo_version if forgejo_version != 'latest' else 'forgejo' }}"
+forgejo_container_src_files_path: "{{ forgejo_base_path }}/docker-src"
+forgejo_container_image_self_build_environment_buildplatform: linux/amd64
+
 # Controls whether the container exposes its HTTP port (tcp/3000 in the container).
 #
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:2586"), or empty string to not expose.
