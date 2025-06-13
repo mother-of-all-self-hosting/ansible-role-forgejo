@@ -38,7 +38,6 @@ forgejo_container_image_registry_prefix_upstream_default: codeberg.org/
 forgejo_container_image_force_pull: "{{ forgejo_container_image.endswith(':latest') }}"
 
 forgejo_container_image_self_build: false
-forgejo_container_image_name: "forgejo/forgejo:{{ forgejo_container_repo_version }}"
 forgejo_container_repo: "https://codeberg.org/forgejo/forgejo.git"
 forgejo_container_repo_version: "{{ 'v' + forgejo_version if forgejo_version != 'latest' else 'forgejo' }}"
 forgejo_container_src_files_path: "{{ forgejo_base_path }}/docker-src"
