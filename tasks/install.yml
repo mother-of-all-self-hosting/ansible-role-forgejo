@@ -58,18 +58,18 @@
   block:
     - name: Ensure Forgejo repository is present on self-build
       ansible.builtin.git:
-        repo: "{{ forgejo_container_repo }}"
-        version: "{{ forgejo_container_repo_version }}"
-        dest: "{{ forgejo_container_src_files_path }}"
+        repo: "{{ forgejo_container_image_self_build_repo }}"
+        version: "{{ forgejo_container_image_self_build_repo_version }}"
+        dest: "{{ forgejo_container_image_self_build_src_files_path }}"
         force: "yes"
       register: forgejo_git_pull_results
 
     - name: Ensure Forgejo container image is built
       ansible.builtin.shell:
-        chdir: "{{ forgejo_container_src_files_path }}"
+        chdir: "{{ forgejo_container_image_self_build_src_files_path }}"
         cmd: |
           {{ devture_systemd_docker_base_host_command_docker }} build \
-          -t "{{ forgejo_container_image }}" \
+          -t "{{ forgejo_container_image_self_build_name }}" \
           -f Dockerfile.rootless \
           .
       environment:
