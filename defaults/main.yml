@@ -16,7 +16,7 @@ forgejo_base_path: "/{{ forgejo_identifier }}"
 forgejo_data_dir_path: "{{ forgejo_base_path }}/data"
 forgejo_config_dir_path: "{{ forgejo_base_path }}/config"
 # Default value for the container's tmpfs size
-forgejo_forgejo_container_tmpfs_size: 128m
+forgejo_forgejo_container_tmpfs_size_mb: 128m
 
 # renovate: datasource=docker depName=codeberg.org/forgejo/forgejo versioning=semver
 forgejo_version: 11.0.1
