@@ -45,7 +45,7 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       --label-file={{ forgejo_base_path }}/labels \
       --mount type=bind,src={{ forgejo_data_dir_path }},dst=/var/lib/gitea \
       --mount type=bind,src={{ forgejo_config_dir_path }},dst=/etc/gitea \
-      --tmpfs=/tmp:rw,noexec,nosuid,size=128m \
+      --tmpfs=/tmp:rw,noexec,nosuid,size={{ forgejo_container_tmpfs_size_mb }}m \
       {{ forgejo_container_image_self_build_name if forgejo_container_image_self_build else forgejo_container_image }}
 
 {% for network in forgejo_container_additional_networks %}

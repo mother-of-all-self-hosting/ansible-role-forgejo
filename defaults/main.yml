@@ -16,6 +16,7 @@ forgejo_base_path: "/{{ forgejo_identifier }}"
 forgejo_data_dir_path: "{{ forgejo_base_path }}/data"
 forgejo_config_dir_path: "{{ forgejo_base_path }}/config"
 
+
 # renovate: datasource=docker depName=codeberg.org/forgejo/forgejo versioning=semver
 forgejo_version: 11.0.1
 
@@ -62,6 +63,9 @@ forgejo_container_http_port: 3000
 
 # Controls the `FORGEJO__server__SSH_LISTEN_PORT` environment variable.
 forgejo_container_ssh_port: 2222
+
+# The size of the container's tmpfs volume
+forgejo_forgejo_container_tmpfs_size_mb: 128
 
 # A list of additional container networks that the container would be connected to.
 # The playbook does not create these networks, so make sure they already exist.
