@@ -16,7 +16,6 @@ forgejo_base_path: "/{{ forgejo_identifier }}"
 forgejo_data_dir_path: "{{ forgejo_base_path }}/data"
 forgejo_config_dir_path: "{{ forgejo_base_path }}/config"
 
-
 # renovate: datasource=docker depName=codeberg.org/forgejo/forgejo versioning=semver
 forgejo_version: 11.0.2
 
