@@ -24,6 +24,12 @@ Forgejo allows you to view StackOverflow threads without exposing your IP addres
 
 See the project's [documentation](https://github.com/httpjamesm/Forgejo/blob/main/README.md) to learn what Forgejo does and why it might be useful to you.
 
+## Prerequisites
+
+To run a Forgejo instance it is necessary to prepare a [Postgres](https://www.postgresql.org) database server.
+
+If you are looking for an Ansible role for it, you can check out [this role (ansible-role-postgres)](https://github.com/mother-of-all-self-hosting/ansible-role-postgres) maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
+
 ## Adjusting the playbook configuration
 
 To enable Forgejo with this role, add the following configuration to your `vars.yml` file.
