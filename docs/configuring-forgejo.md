@@ -10,19 +10,21 @@ SPDX-FileCopyrightText: 2022 Julian Foad
 SPDX-FileCopyrightText: 2022 Warren Bailey
 SPDX-FileCopyrightText: 2023 Antonis Christofides
 SPDX-FileCopyrightText: 2023 Felix Stupp
+SPDX-FileCopyrightText: 2023 MASH project contributors
 SPDX-FileCopyrightText: 2023 Pierre 'McFly' Marty
 SPDX-FileCopyrightText: 2024 - 2025 Suguru Hirahara
+SPDX-FileCopyrightText: 2024 Sergio Durigan Junior
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 # Setting up Forgejo
 
-This is an [Ansible](https://www.ansible.com/) role which installs [Forgejo](https://github.com/httpjamesm/Forgejo) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
+This is an [Ansible](https://www.ansible.com/) role which installs [Forgejo](https://forgejo.org) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
 
-Forgejo allows you to view StackOverflow threads without exposing your IP address, browsing habits, and other browser fingerprinting data to the website.
+Forgejo is a self-hosted lightweight software forge (Git hosting service, etc.), an alternative to [Gitea](https://gitea.io/).
 
-See the project's [documentation](https://github.com/httpjamesm/Forgejo/blob/main/README.md) to learn what Forgejo does and why it might be useful to you.
+See the project's [documentation](https://forgejo.org/docs/latest/) to learn what Forgejo does and why it might be useful to you.
 
 ## Prerequisites
 
@@ -62,7 +64,17 @@ forgejo_hostname: "example.com"
 
 After adjusting the hostname, make sure to adjust your DNS records to point the domain to your server.
 
-**Note**: hosting Forgejo under a subpath (by configuring the `forgejo_path_prefix` variable) does not seem to be possible due to Forgejo's technical limitations.
+### Configure SSH port for Forgejo (optional)
+
+Forgejo uses port 22 for its SSH feature by default.
+
+We recommend you to move your regular SSH server to another port, and stick to this default for your Forgejo instance.
+
+If you wish to have the instance listen to another port, add the following configuration to your `vars.yml` file and adjust the port as you see fit.
+
+```yaml
+forgejo_ssh_port: 222
+```
 
 ### Extending the configuration
 
@@ -71,8 +83,6 @@ There are some additional things you may wish to configure about the component.
 Take a look at:
 
 - [`defaults/main.yml`](../defaults/main.yml) for some variables that you can customize via your `vars.yml` file. You can override settings (even those that don't have dedicated playbook variables) using the `forgejo_environment_variables_additional_variables` variable
-
-See its [`docker-compose.example.yml`](https://github.com/httpjamesm/Forgejo/blob/main/docker-compose.example.yml) for a complete list of Forgejo's config options that you could put in `forgejo_environment_variables_additional_variables`.
 
 ## Installing
 
@@ -86,11 +96,9 @@ If you use the MASH playbook, the shortcut commands with the [`just` program](ht
 
 ## Usage
 
-After running the command for installation, Forgejo becomes available at the specified hostname like `https://example.com`.
+After running the command for installation, the Forgejo instance becomes available at the URL specified with `forgejo_hostname` and `forgejo_path_prefix`. With the configuration above, the service is hosted at `https://example.com`.
 
-[Libredirect](https://libredirect.github.io/), an extension for Firefox and Chromium-based desktop browsers, has support for redirections to Forgejo. See [this section](https://github.com/httpjamesm/Forgejo/blob/main/README.md#how-to-make-stack-overflow-links-take-you-to-forgejo-automatically) on the official documentation for more information.
-
-If you would like to make your instance public so that it can be used by anyone including Libredirect, please consider to send a PR to the [upstream project](https://github.com/httpjamesm/Forgejo) to add yours to [`instances.json`](https://github.com/httpjamesm/Forgejo/blob/main/instances.json), which Libredirect automatically fetches using a script (see [this FAQ entry](https://libredirect.github.io/faq.html#where_the_hell_are_those_instances_coming_from)).
+To get started, open the URL with a web browser, and follow the set up wizard.
 
 ## Troubleshooting
 
