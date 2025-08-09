@@ -171,8 +171,7 @@ Nevertheless, upgrades may be possible with some manual work. Below is a rough g
 
 8. **For Gitea versions older than v1.22, skip this step**. For newer versions, revert the `forgejo` database to a schema migration version that Forgejo supports
 
-    In this guide, we're using Gitea v1.23.1, the database schema version for which (`312`) is newer than what Forgejo supports (`305`).
-    We need to [revert all migrations that are newer than `305`](https://github.com/go-gitea/gitea/tree/v1.23.1/models/migrations/v1_23).
+    In this guide, we're using Gitea v1.23.1, the database schema version for which (`312`) is newer than what Forgejo supports (`305`). We need to [revert all migrations that are newer than `305`](https://github.com/go-gitea/gitea/tree/v1.23.1/models/migrations/v1_23).
 
     This may not always be possible or easy. For Gitea v1.23.1, the reverts can be done by running `/mash/postgres/bin/cli`, switching to the `forgejo` database (`\c forgejo`), and running the following queries:
 
@@ -225,8 +224,7 @@ Nevertheless, upgrades may be possible with some manual work. Below is a rough g
 
 11. Reset 2FA authentication settings for all users
 
-    Forgejo seems to suffer from some issues when handling 2FA login and will return a "500 internal server error" while checking your 2FA code.
-    This may be because some secret keys reset during the Gitea -> Forgejo migration, or most likely due to some bug.
+    Forgejo seems to suffer from some issues when handling 2FA login and will return a "500 internal server error" while checking your 2FA code. This may be because some secret keys reset during the Gitea -> Forgejo migration, or most likely due to some bug.
 
     If you're experiencing issues with 2FA, run `/mash/postgres/bin/cli`, switch to the `forgejo` database (`\c forgejo`) and execute the following query:
 
@@ -234,8 +232,7 @@ Nevertheless, upgrades may be possible with some manual work. Below is a rough g
     DELETE FROM two_factor;
     ```
 
-    After this, you should be able to log in without being prompted for 2FA.
-    Adding 2FA to your account later may be possible, but we also found issues with that:
+    After this, you should be able to log in without being prompted for 2FA. Adding 2FA to your account later may be possible, but we also found issues with that:
 
     > SettingsTwoFactor: Failed to save two factor, pq: invalid byte sequence for encoding "UTF8": ...
 
