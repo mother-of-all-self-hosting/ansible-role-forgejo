@@ -182,12 +182,12 @@ forgejo_systemd_required_services_list_custom: []
 # List of systemd services that the Forgejo systemd service wants
 forgejo_systemd_wanted_services_list: []
 
-forgejo_config_database_type: postgres
-forgejo_config_database_hostname: ''
-forgejo_config_database_port: 5432
-forgejo_config_database_name: forgejo
-forgejo_config_database_username: ''
-forgejo_config_database_password: ''
+forgejo_database_type: postgres
+forgejo_database_hostname: ''
+forgejo_database_port: 5432
+forgejo_database_name: forgejo
+forgejo_database_username: ''
+forgejo_database_password: ''
 
 forgejo_config_mailer_enabled: false
 forgejo_config_mailer_from: ''
