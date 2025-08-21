@@ -185,12 +185,21 @@ forgejo_systemd_wanted_services_list_default: []
 forgejo_systemd_wanted_services_list_auto: []
 forgejo_systemd_wanted_services_list_custom: []
 
-forgejo_database_type: postgres
-forgejo_database_hostname: ''
-forgejo_database_port: 5432
+# Specify database to use
+# Valid values: mysql, postgres
+# Defaults to SQLite if unspecified
+forgejo_database_type: ''
+
+forgejo_database_mysql_hostname: ''
+forgejo_database_mysql_port: 3306
+forgejo_database_mysql_username: forgejo
+forgejo_database_mysql_password: ''
+forgejo_database_postgres_hostname: ''
+forgejo_database_postgres_port: 5432
+forgejo_database_postgres_username: forgejo
+forgejo_database_postgres_password: ''
+
 forgejo_database_name: forgejo
-forgejo_database_username: forgejo
-forgejo_database_password: ''
 
 forgejo_config_mailer_enabled: false
 forgejo_config_mailer_from: ''

@@ -31,9 +31,9 @@ See the project's [documentation](https://forgejo.org/docs/latest/) to learn wha
 
 ## Prerequisites
 
-To run a Forgejo instance it is necessary to prepare a [Postgres](https://www.postgresql.org) database server.
+To run a Forgejo instance it is necessary to prepare a database. You can use a [SQLite](https://www.sqlite.org/), [Postgres](https://www.postgresql.org/), or [MySQL](https://www.mysql.com/) compatible database server. By default it is configured to use SQLite.
 
-If you are looking for an Ansible role for it, you can check out [this role (ansible-role-postgres)](https://github.com/mother-of-all-self-hosting/ansible-role-postgres) maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
+If you are looking for Ansible roles for a Postgres or MySQL compatible server, you can check out [ansible-role-postgres](https://github.com/mother-of-all-self-hosting/ansible-role-postgres) and [ansible-role-mariadb](https://github.com/mother-of-all-self-hosting/ansible-role-mariadb), both of which are maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
 
 ## Adjusting the playbook configuration
 
@@ -66,6 +66,20 @@ forgejo_hostname: "example.com"
 ```
 
 After adjusting the hostname, make sure to adjust your DNS records to point the domain to your server.
+
+### Specify database (optional)
+
+You can specify a database used by Forgejo. By default it is configured to use SQLite.
+
+To use Postgres, add the following configuration to your `vars.yml` file:
+
+```yaml
+forgejo_database_type: postgres
+```
+
+Set `mysql` for MySQL compatible database.
+
+For other settings, check variables such as `forgejo_database_mysql_*` and `forgejo_database_postgres_*` on [`defaults/main.yml`](../defaults/main.yml) .
 
 ### Configure SSH port for Forgejo (optional)
 

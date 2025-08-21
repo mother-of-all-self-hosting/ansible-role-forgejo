@@ -21,6 +21,10 @@
     - { "old": "forgejo_config_database_name", "new": "forgejo_database_name" }
     - { "old": "forgejo_config_database_username", "new": "forgejo_database_username" }
     - { "old": "forgejo_config_database_password", "new": "forgejo_database_password" }
+    - { "old": "forgejo_database_hostname", "new": "<Replace with forgejo_database_mysql_hostname or forgejo_database_postgres_hostname>" }
+    - { "old": "forgejo_database_port", "new": "<Replace with forgejo_database_mysql_port or forgejo_database_postgres_port>" }
+    - { "old": "forgejo_database_username", "new": "<Replace with forgejo_database_mysql_username or forgejo_database_postgres_username>" }
+    - { "old": "forgejo_database_password", "new": "<Replace with forgejo_database_mysql_password or forgejo_database_postgres_password>" }
     - { "old": "forgejo_container_additional_environment_variables", "new": "forgejo_environment_variables_additional_variables" }
     - { "old": "forgejo_systemd_required_systemd_services_list", "new": "forgejo_systemd_required_services_list" }
     - { "old": "forgejo_systemd_required_systemd_services_list_default", "new": "forgejo_systemd_required_services_list_default" }
@@ -36,9 +40,6 @@
     - { "name": "forgejo_hostname", when: true }
     - { "name": "forgejo_uid", when: true }
     - { "name": "forgejo_gid", when: true }
-    - { "name": "forgejo_database_hostname", when: true }
-    - { "name": "forgejo_database_username", when: true }
-    - { "name": "forgejo_database_password", when: true }
     - "name": "forgejo_container_labels_traefik_compression_middleware_name"
       when: "{{ forgejo_container_labels_traefik_compression_middleware_enabled }}"
 
