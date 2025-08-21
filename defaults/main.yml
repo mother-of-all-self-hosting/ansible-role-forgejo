@@ -186,7 +186,7 @@ forgejo_database_type: postgres
 forgejo_database_hostname: ''
 forgejo_database_port: 5432
 forgejo_database_name: forgejo
-forgejo_database_username: ''
+forgejo_database_username: forgejo
 forgejo_database_password: ''
 
 forgejo_config_mailer_enabled: false
