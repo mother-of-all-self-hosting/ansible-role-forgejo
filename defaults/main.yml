@@ -180,7 +180,10 @@ forgejo_systemd_required_services_list_auto: []
 forgejo_systemd_required_services_list_custom: []
 
 # List of systemd services that the Forgejo systemd service wants
-forgejo_systemd_wanted_services_list: []
+forgejo_systemd_wanted_services_list: "{{ forgejo_systemd_wanted_services_list_default + forgejo_systemd_wanted_services_list_auto + forgejo_systemd_wanted_services_list_custom }}"
+forgejo_systemd_wanted_services_list_default: []
+forgejo_systemd_wanted_services_list_auto: []
+forgejo_systemd_wanted_services_list_custom: []
 
 forgejo_database_type: postgres
 forgejo_database_hostname: ''
