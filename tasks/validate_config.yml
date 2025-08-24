@@ -16,11 +16,11 @@
     - { "old": "forgejo_ssh_bind_port", "new": "forgejo_container_ssh_host_bind_port" }
     - { "old": "forgejo_config_server_ssh_listen_port", "new": "forgejo_container_ssh_port" }
     - { "old": "forgejo_config_database_type", "new": "forgejo_database_type" }
-    - { "old": "forgejo_config_database_hostname", "new": "forgejo_database_hostname" }
-    - { "old": "forgejo_config_database_port", "new": "forgejo_database_port" }
+    - { "old": "forgejo_config_database_hostname", "new": "<Replace with forgejo_database_mysql_hostname or forgejo_database_postgres_hostname>" }
+    - { "old": "forgejo_config_database_port", "new": "<Replace with forgejo_database_mysql_port or forgejo_database_postgres_port>" }
     - { "old": "forgejo_config_database_name", "new": "forgejo_database_name" }
-    - { "old": "forgejo_config_database_username", "new": "forgejo_database_username" }
-    - { "old": "forgejo_config_database_password", "new": "forgejo_database_password" }
+    - { "old": "forgejo_config_database_username", "new": "<Replace with forgejo_database_mysql_username or forgejo_database_postgres_username>" }
+    - { "old": "forgejo_config_database_password", "new": "<Replace with forgejo_database_mysql_password or forgejo_database_postgres_password>" }
     - { "old": "forgejo_database_hostname", "new": "<Replace with forgejo_database_mysql_hostname or forgejo_database_postgres_hostname>" }
     - { "old": "forgejo_database_port", "new": "<Replace with forgejo_database_mysql_port or forgejo_database_postgres_port>" }
     - { "old": "forgejo_database_username", "new": "<Replace with forgejo_database_mysql_username or forgejo_database_postgres_username>" }
