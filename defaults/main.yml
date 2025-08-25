@@ -186,9 +186,8 @@ forgejo_systemd_wanted_services_list_auto: []
 forgejo_systemd_wanted_services_list_custom: []
 
 # Specify database to use
-# Valid values: mysql, postgres
-# Defaults to SQLite if unspecified
-forgejo_database_type: ''
+# Valid values: mysql, postgres, sqlite
+forgejo_database_type: sqlite
 
 forgejo_database_mysql_hostname: ''
 forgejo_database_mysql_port: 3306
