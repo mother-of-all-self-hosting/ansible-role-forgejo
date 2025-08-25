@@ -27,7 +27,7 @@ Forgejo is a self-hosted lightweight software forge (Git hosting service, etc.),
 See the project's [documentation](https://forgejo.org/docs/latest/) to learn what Forgejo does and why it might be useful to you.
 
 >[!NOTE]
-> As the role is configured to [use the rootless image](https://forgejo.org/docs/latest/admin/installation/docker/#using-rootless-image), the path for the data folder (mounted via `forgejo_data_dir_path`) is different from the one used by the image which is not rootless.
+> As the role is configured to [use the rootless image](https://forgejo.org/docs/latest/admin/installation/docker/#using-rootless-image), the path for the data folder (mounted via `forgejo_data_path`) is different from the one used by the image which is not rootless.
 
 ## Prerequisites
 

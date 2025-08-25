@@ -54,36 +54,36 @@
 
 - name: Check existence of Forgejo local data path
   ansible.builtin.stat:
-    path: "{{ forgejo_data_dir_path }}"
-  register: forgejo_data_dir_path_stat
+    path: "{{ forgejo_data_path }}"
+  register: forgejo_data_path_stat
 
 # We just want to notify the user. Deleting data is too destructive.
 - name: Notify if Forgejo local data remains
-  when: forgejo_data_dir_path_stat.stat.exists | bool
+  when: forgejo_data_path_stat.stat.exists | bool
   ansible.builtin.set_fact:
     devture_playbook_runtime_messages_list: |
       {{
         devture_playbook_runtime_messages_list | default([])
         +
         [
-          "Note: As the local Forgejo instance has been removed, some old data remains in `" + forgejo_data_dir_path + "`. Feel free to delete it."
+          "Note: As the local Forgejo instance has been removed, some old data remains in `" + forgejo_data_path + "`. Feel free to delete it."
         ]
       }}
 
 - name: Check existence of Forgejo config path
   ansible.builtin.stat:
-    path: "{{ forgejo_config_dir_path }}"
-  register: forgejo_config_dir_path_stat
+    path: "{{ forgejo_config_path }}"
+  register: forgejo_config_path_stat
 
 # We just want to notify the user. Deleting data is too destructive.
 - name: Notify if Forgejo config remains
-  when: forgejo_config_dir_path_stat.stat.exists | bool
+  when: forgejo_config_path_stat.stat.exists | bool
   ansible.builtin.set_fact:
     devture_playbook_runtime_messages_list: |
       {{
         devture_playbook_runtime_messages_list | default([])
         +
         [
-          "Note: As the local Forgejo instance has been removed, some config data remains in `" + forgejo_config_dir_path + "`. Feel free to delete it."
+          "Note: As the local Forgejo instance has been removed, some config data remains in `" + forgejo_config_path + "`. Feel free to delete it."
         ]
       }}

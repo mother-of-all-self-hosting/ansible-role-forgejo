@@ -14,8 +14,8 @@
     group: "{{ forgejo_gid }}"
   with_items:
     - "{{ forgejo_base_path }}"
-    - "{{ forgejo_data_dir_path }}"
-    - "{{ forgejo_config_dir_path }}"
+    - "{{ forgejo_data_path }}"
+    - "{{ forgejo_config_path }}"
 
 - name: Ensure Forgejo support files installed
   ansible.builtin.template:

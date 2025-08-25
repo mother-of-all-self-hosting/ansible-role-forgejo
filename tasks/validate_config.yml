@@ -12,6 +12,8 @@
       Please change your configuration to rename the variable (`{{ item.old }}` -> `{{ item.new }}`).
   when: "lookup('ansible.builtin.varnames', ('^' + item.old + '$'), wantlist=True) | length > 0"
   with_items:
+    - { "old": "forgejo_data_dir_path", "new": "forgejo_data_path" }
+    - { "old": "forgejo_config_dir_path", "new": "forgejo_config_path" }
     - { "old": "forgejo_http_bind_port", "new": "forgejo_container_http_host_bind_port" }
     - { "old": "forgejo_ssh_bind_port", "new": "forgejo_container_ssh_host_bind_port" }
     - { "old": "forgejo_config_server_ssh_listen_port", "new": "forgejo_container_ssh_port" }
