@@ -1,3 +1,4 @@
+# SPDX-FileCopyrightText: 2023 Julian-Samuel Gebühr
 # SPDX-FileCopyrightText: 2023 MASH project contributors
 # SPDX-FileCopyrightText: 2025 Slavi Pantaleev
 # SPDX-FileCopyrightText: 2025 Suguru Hirahara
@@ -68,6 +69,15 @@
   with_items:
     - forgejo_database_postgres_hostname
     - forgejo_database_postgres_password
+
+- name: Fail if SMTP settings are missing (and SMTP is enabled by setting host)
+  ansible.builtin.fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`) to correctly set up email via SMTP.
+  when: "forgejo_config_mailer_enabled | bool and lookup('vars', item, default='') | string | length == 0"
+  with_items:
+    - forgejo_config_mailer_smtp_addr
+    - forgejo_config_mailer_from
 
 - name: Run if Traefik is enabled
   when: forgejo_container_labels_traefik_enabled | bool
