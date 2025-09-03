@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2023 MASH project contributors
+# SPDX-FileCopyrightText: 2023 Slavi Pantaleev
 # SPDX-FileCopyrightText: 2025 Suguru Hirahara
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
@@ -36,6 +37,24 @@
       ansible.builtin.file:
         path: "{{ forgejo_container_image_self_build_src_files_path }}"
         state: absent
+
+    - name: Ensure Forgejo local config path does not exist if empty
+      ansible.builtin.command:
+        cmd: "rmdir {{ forgejo_config_path }}"
+      register: forgejo_config_path_deletion_result
+      changed_when: forgejo_config_path_deletion_result.rc == 0
+
+    - name: Ensure Forgejo local data path does not exist if empty
+      ansible.builtin.command:
+        cmd: "rmdir {{ forgejo_data_path }}"
+      register: forgejo_data_path_deletion_result
+      changed_when: forgejo_data_path_deletion_result.rc == 0
+
+    - name: Ensure Forgejo base path does not exist if empty
+      ansible.builtin.command:
+        cmd: "rmdir {{ forgejo_base_path }}"
+      register: forgejo_base_path_deletion_result
+      changed_when: forgejo_base_path_deletion_result.rc == 0
 
     - name: Ensure Forgejo container network does not exist via community.docker.docker_network
       when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'
