@@ -43,18 +43,21 @@
         cmd: "rmdir {{ forgejo_config_path }}"
       register: forgejo_config_path_deletion_result
       changed_when: forgejo_config_path_deletion_result.rc == 0
+      failed_when: false
 
     - name: Ensure Forgejo local data path does not exist if empty
       ansible.builtin.command:
         cmd: "rmdir {{ forgejo_data_path }}"
       register: forgejo_data_path_deletion_result
       changed_when: forgejo_data_path_deletion_result.rc == 0
+      failed_when: false
 
     - name: Ensure Forgejo base path does not exist if empty
       ansible.builtin.command:
         cmd: "rmdir {{ forgejo_base_path }}"
       register: forgejo_base_path_deletion_result
       changed_when: forgejo_base_path_deletion_result.rc == 0
+      failed_when: false
 
     - name: Ensure Forgejo container network does not exist via community.docker.docker_network
       when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'
