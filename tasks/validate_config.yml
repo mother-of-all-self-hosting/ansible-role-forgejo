@@ -33,6 +33,7 @@
     - { "old": "forgejo_systemd_required_systemd_services_list_default", "new": "forgejo_systemd_required_services_list_default" }
     - { "old": "forgejo_systemd_required_systemd_services_list_auto", "new": "forgejo_systemd_required_services_list_auto" }
     - { "old": "forgejo_systemd_required_systemd_services_list_custom", "new": "forgejo_systemd_required_services_list_custom" }
+    - { "old": "forgejo_http_header_content_permission_policy", "new": "forgejo_http_header_permissions_policy" }
 
 - name: Fail if required Forgejo settings not defined
   ansible.builtin.fail:
