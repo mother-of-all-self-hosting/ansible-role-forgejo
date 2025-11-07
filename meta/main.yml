@@ -1,9 +1,9 @@
 ---
 galaxy_info:
   author: Syne
-  company: <3
+  company: mash
   role_name: forgejo
-  namespace: syne
+  namespace: mash
   description: Forgejo
   platforms:
     - name: Debian
