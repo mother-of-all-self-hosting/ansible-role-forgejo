@@ -47,6 +47,12 @@
     - "name": "forgejo_container_labels_traefik_compression_middleware_name"
       when: "{{ forgejo_container_labels_traefik_compression_middleware_enabled }}"
 
+- name: Fail if Forgejo cache adapter type is invalid
+  ansible.builtin.fail:
+    msg: >-
+      forgejo_config_cache_adapter must be 'memcache', 'memory', 'redis', 'redis-cluster', or 'twoqueue'
+  when: "forgejo_config_cache_adapter not in ['memcache', 'memory', 'redis', 'redis-cluster', 'twoqueue']"
+
 - name: Fail if Forgejo database type invalid
   ansible.builtin.fail:
     msg: >-

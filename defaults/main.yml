@@ -200,6 +200,12 @@ forgejo_database_postgres_password: ''
 
 forgejo_database_name: forgejo
 
+forgejo_redis_hostname: ""
+forgejo_redis_port: 6379
+forgejo_redis_username: ""
+forgejo_redis_password: ""
+forgejo_redis_database: 0
+
 forgejo_config_mailer_enabled: false
 forgejo_config_mailer_from: ''
 forgejo_config_mailer_protocol: ''
@@ -263,6 +269,13 @@ forgejo_config_run_user: "{{ 'git' if forgejo_uid | string == '1000' else '' }}"
 # app.ini config file.
 forgejo_container_add_host_domain_name: ''
 forgejo_container_add_host_domain_ip_address: ''
+
+# Specify cache adapter
+# Valid values: memcache, memory, redis, redis-cluster, twoqueue
+# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#cache-cache
+forgejo_config_cache_adapter: memory
+
+forgejo_config_cache_host: ""
 
 # forgejo_environment_variables_additional_variables contains a multiline string with additional environment variables to pass to the container.
 #
