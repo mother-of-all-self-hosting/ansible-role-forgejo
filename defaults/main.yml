@@ -260,6 +260,11 @@ forgejo_config_service_enable_openid_signin: true
 # See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#openid-openid
 forgejo_config_service_enable_openid_signup: "{{ not forgejo_config_service_disable_registration }}"
 
+# Controls the `FORGEJO__oauth2_client__ENABLE_AUTO_REGISTRATION` environment variable.
+# Enables automatical user accounts creation for new OAuth2 users.
+# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#oauth2-client-oauth2_client
+forgejo_config_oauth2_client_enable_auto_registration: false
+
 # Controls the RUN_USER configuration setting (`FORGEJO____RUN_USER=` environment variable).
 #
 # This defaults to `git` in the upstream configuration.
