@@ -214,6 +214,29 @@ forgejo_config_mailer_smtp_port: 587
 forgejo_config_mailer_user: ''
 forgejo_config_mailer_passwd: ''
 
+# OAuth2 configuration (with OpenID Connect). See https://forgejo.org/docs/latest/admin/command-line/#admin-auth-add-oauth for details
+forgejo_oidc_enabled: false
+
+forgejo_oidc_name: ""
+forgejo_oidc_client_id: ""
+forgejo_oidc_client_secret: ""
+forgejo_oidc_auto_discover_url: ""
+forgejo_oidc_authorize_url: ""
+forgejo_oidc_token_url: ""
+forgejo_oidc_userinfo_url: ""
+forgejo_oidc_icon_url: ""
+forgejo_oidc_scopes: "openid email profile"
+
+forgejo_oidc_required_claim_name: ""
+forgejo_oidc_required_claim_value: ""
+forgejo_oidc_group_claim_name: "groups"
+forgejo_oidc_admin_group: "admin"
+forgejo_oidc_restricted_group: ""
+forgejo_oidc_group_team_map: ""
+forgejo_oidc_group_team_map_removal: false
+forgejo_oidc_allow_username_change: false
+forgejo_oidc_skip_local_2fa: false
+
 forgejo_config_root_url: "{{ forgejo_scheme }}://{{ forgejo_hostname }}{{ forgejo_path_prefix }}"
 
 forgejo_ssh_port: 22
