@@ -39,6 +39,6 @@
         --group-team-map={{ forgejo_oidc_group_team_map }} \
         --group-team-map-removal={{ forgejo_oidc_group_team_map_removal }} \
         --allow-username-change={{ forgejo_oidc_allow_username_change }} \
-        --skip-local-2fa={{ forgejo_oidc_skip_loacl_2fa }}
+        --skip-local-2fa={{ forgejo_oidc_skip_local_2fa }}
   failed_when: false
   register: forgejo_oauth
