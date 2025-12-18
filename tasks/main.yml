@@ -32,4 +32,4 @@
     - configure-oauth-forgejo
   block:
     - name: Configure OAuth2 provider for Forgejo
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/configure-oauth.yml"
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/configure_oauth.yml"
