@@ -41,9 +41,10 @@
       You need to define a required configuration setting (`{{ item.name }}`) for using this role.
   when: "item.when | bool and lookup('vars', item.name, default='') | string | length == 0"
   with_items:
-    - { "name": "forgejo_hostname", when: true }
     - { "name": "forgejo_uid", when: true }
     - { "name": "forgejo_gid", when: true }
+    - { "name": "forgejo_hostname", when: true }
+    - { "name": "forgejo_path_prefix", when: true }
     - "name": "forgejo_container_labels_traefik_compression_middleware_name"
       when: "{{ forgejo_container_labels_traefik_compression_middleware_enabled }}"
 
