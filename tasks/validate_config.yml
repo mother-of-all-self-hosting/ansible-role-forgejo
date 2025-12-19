@@ -45,6 +45,7 @@
     - { "name": "forgejo_gid", when: true }
     - { "name": "forgejo_hostname", when: true }
     - { "name": "forgejo_path_prefix", when: true }
+    - { "name": "forgejo_container_network", when: true }
     - "name": "forgejo_container_labels_traefik_compression_middleware_name"
       when: "{{ forgejo_container_labels_traefik_compression_middleware_enabled }}"
 
