@@ -19,13 +19,13 @@ forgejo_data_path: "{{ forgejo_base_path }}/data"
 # renovate: datasource=docker depName=codeberg.org/forgejo/forgejo versioning=semver
 forgejo_version: 13.0.3
 
-forgejo_uid: ''
-forgejo_gid: ''
+forgejo_uid: ""
+forgejo_gid: ""
 
 forgejo_scheme: https
 
 # The fully-qualified name of your Forgejo server (e.g. `forgejo.example.com`)
-forgejo_hostname: ''
+forgejo_hostname: ""
 
 # The path at which Forgejo is exposed.
 forgejo_path_prefix: /
@@ -47,7 +47,7 @@ forgejo_container_image_self_build_environment_buildplatform: linux/amd64
 # Controls whether the container exposes its HTTP port (tcp/3000 in the container).
 #
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:2586"), or empty string to not expose.
-forgejo_container_http_host_bind_port: ''
+forgejo_container_http_host_bind_port: ""
 
 # Controls whether the container exposes its SSH port (tcp/22 in the container).
 #
@@ -78,7 +78,7 @@ forgejo_container_additional_networks_custom: []
 #
 # To inject your own other container labels, see `forgejo_container_labels_additional_labels`.
 forgejo_container_labels_traefik_enabled: true
-forgejo_container_labels_traefik_docker_network: ''
+forgejo_container_labels_traefik_docker_network: ""
 forgejo_container_labels_traefik_hostname: "{{ forgejo_hostname }}"
 # The path prefix must either be `/` or not end with a slash (e.g. `/forgejo`).
 forgejo_container_labels_traefik_path_prefix: "{{ forgejo_path_prefix }}"
@@ -197,14 +197,14 @@ forgejo_systemd_wanted_services_list_custom: []
 # Valid values: mysql, postgres, sqlite
 forgejo_database_type: sqlite
 
-forgejo_database_mysql_hostname: ''
+forgejo_database_mysql_hostname: ""
 forgejo_database_mysql_port: 3306
 forgejo_database_mysql_username: forgejo
-forgejo_database_mysql_password: ''
-forgejo_database_postgres_hostname: ''
+forgejo_database_mysql_password: ""
+forgejo_database_postgres_hostname: ""
 forgejo_database_postgres_port: 5432
 forgejo_database_postgres_username: forgejo
-forgejo_database_postgres_password: ''
+forgejo_database_postgres_password: ""
 
 forgejo_database_name: forgejo
 
@@ -215,12 +215,12 @@ forgejo_redis_password: ""
 forgejo_redis_database: 0
 
 forgejo_config_mailer_enabled: false
-forgejo_config_mailer_from: ''
-forgejo_config_mailer_protocol: ''
-forgejo_config_mailer_smtp_addr: ''
+forgejo_config_mailer_from: ""
+forgejo_config_mailer_protocol: ""
+forgejo_config_mailer_smtp_addr: ""
 forgejo_config_mailer_smtp_port: 587
-forgejo_config_mailer_user: ''
-forgejo_config_mailer_passwd: ''
+forgejo_config_mailer_user: ""
+forgejo_config_mailer_passwd: ""
 
 forgejo_config_root_url: "{{ forgejo_scheme }}://{{ forgejo_hostname }}{{ forgejo_path_prefix }}"
 
@@ -275,8 +275,8 @@ forgejo_config_run_user: "{{ 'git' if forgejo_uid | string == '1000' else '' }}"
 #
 # Don't forget to also update `webhook.ALLOWED_HOST_LIST` on Forgejo's
 # app.ini config file.
-forgejo_container_add_host_domain_name: ''
-forgejo_container_add_host_domain_ip_address: ''
+forgejo_container_add_host_domain_name: ""
+forgejo_container_add_host_domain_ip_address: ""
 
 # Specify cache adapter
 # Valid values: memcache, memory, redis, redis-cluster, twoqueue
@@ -294,4 +294,4 @@ forgejo_environment_variables_tz: UTC
 # forgejo_environment_variables_additional_variables: |
 #   VAR=1
 #   ANOTHER=value
-forgejo_environment_variables_additional_variables: ''
+forgejo_environment_variables_additional_variables: ""
