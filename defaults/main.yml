@@ -237,6 +237,9 @@ forgejo_config_root_url: "{{ forgejo_scheme }}://{{ forgejo_hostname }}{{ forgej
 # Controls the `FORGEJO__server__SSH_LISTEN_PORT` environment variable.
 forgejo_config_server_ssh_listen_port: 4382 # Random number to avoid collision
 
+# Control if minimum key size with corresponding type is checked
+forgejo_config_server_minimum_key_size_check: true
+
 # Enable this to send e-mail to watchers of a repository when something happens, like creating issues. Requires Mailer to be enabled.
 # See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#service-service
 #
