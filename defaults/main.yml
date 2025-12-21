@@ -52,7 +52,7 @@ forgejo_container_http_host_bind_port: ""
 # Controls whether the container exposes its SSH port (tcp/22 in the container).
 #
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:2586"), or empty string to not expose.
-forgejo_container_ssh_host_bind_port: "{{ forgejo_ssh_port }}"
+forgejo_container_ssh_host_bind_port: "{{ forgejo_container_ssh_port }}"
 
 # The base container network. It will be auto-created by this role if it doesn't exist already.
 forgejo_container_network: "{{ forgejo_identifier }}"
@@ -60,8 +60,8 @@ forgejo_container_network: "{{ forgejo_identifier }}"
 # The port number in the container
 forgejo_container_http_port: 3000
 
-# Controls the `FORGEJO__server__SSH_LISTEN_PORT` environment variable.
-forgejo_container_ssh_port: 2222
+# The port number in the container
+forgejo_container_ssh_port: 22
 
 # The size of the container's tmpfs volume
 forgejo_container_tmpfs_size_mb: 128
@@ -224,10 +224,8 @@ forgejo_config_mailer_passwd: ""
 
 forgejo_config_root_url: "{{ forgejo_scheme }}://{{ forgejo_hostname }}{{ forgejo_path_prefix }}"
 
-forgejo_ssh_port: 22
-
-# Controls the `FORGEJO__server__SSH_PORT` environment variable.
-forgejo_config_server_ssh_port: "{{ forgejo_ssh_port }}"
+# Controls the `FORGEJO__server__SSH_LISTEN_PORT` environment variable.
+forgejo_config_server_ssh_listen_port: 2222
 
 # Enable this to send e-mail to watchers of a repository when something happens, like creating issues. Requires Mailer to be enabled.
 # See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#service-service
