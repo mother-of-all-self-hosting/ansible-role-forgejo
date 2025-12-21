@@ -88,6 +88,16 @@ forgejo_container_labels_traefik_entrypoints: web-secure
 forgejo_container_labels_traefik_tls: "{{ forgejo_container_labels_traefik_entrypoints != 'web' }}"
 forgejo_container_labels_traefik_tls_certResolver: default  # noqa var-naming
 
+# forgejo_container_labels_traefik_tcp_enabled controls whether labels to assist a Traefik reverse-proxy for SSH connections will be attached to the container.
+# See `../templates/labels.j2` for details.
+#
+# To inject your own other container labels, see `forgejo_container_labels_additional_labels`.
+forgejo_container_labels_traefik_tcp_enabled: true
+forgejo_container_labels_traefik_tcp_docker_network: "{{ forgejo_container_network }}"
+forgejo_container_labels_traefik_tcp_rule: "HostSNI(`*`)"
+forgejo_container_labels_traefik_tcp_priority: 0
+forgejo_container_labels_traefik_tcp_entrypoints: ssh-forgejo
+
 # Controls whether a compression middleware will be injected into the middlewares list.
 # This compression middleware is supposed to be defined elsewhere (using labels or a File provider, etc.) and is merely referenced by this router.
 forgejo_container_labels_traefik_compression_middleware_enabled: false
@@ -225,7 +235,7 @@ forgejo_config_mailer_passwd: ""
 forgejo_config_root_url: "{{ forgejo_scheme }}://{{ forgejo_hostname }}{{ forgejo_path_prefix }}"
 
 # Controls the `FORGEJO__server__SSH_LISTEN_PORT` environment variable.
-forgejo_config_server_ssh_listen_port: 2222
+forgejo_config_server_ssh_listen_port: 4382 # Random number to avoid collision
 
 # Enable this to send e-mail to watchers of a repository when something happens, like creating issues. Requires Mailer to be enabled.
 # See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#service-service
