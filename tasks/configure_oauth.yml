@@ -29,7 +29,7 @@
         --key={{ forgejo_oidc_client_id }} \
         --secret={{ forgejo_oidc_client_secret }} \
         --auto-discover-url={{ forgejo_oidc_auto_discover_url }} \
-        {% if forgejo_oidc_icon_url %} --icon_url={{ forgejo_oidc_icon_url }} \ {% endif %}
+        {% if forgejo_oidc_icon_url %} --icon-url={{ forgejo_oidc_icon_url }} \ {% endif %}
         {% if forgejo_oidc_scopes %} --scopes={{ forgejo_oidc_scopes }} \ {% endif %}
         {% if forgejo_oidc_required_claim_name %} --required-claim-name={{ forgejo_oidc_required_claim_name }} \ {% endif %}
         {% if forgejo_oidc_required_claim_value %} --required-claim-value={{ forgejo_oidc_required_claim_value }} \ {% endif %}
