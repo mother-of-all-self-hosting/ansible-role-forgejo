@@ -24,10 +24,10 @@ forgejo_gid: ""
 
 forgejo_scheme: https
 
-# The fully-qualified name of your Forgejo server (e.g. `forgejo.example.com`)
+# The hostname at which Forgejo is served.
 forgejo_hostname: ""
 
-# The path at which Forgejo is exposed.
+# The path at which Forgejo is served.
 forgejo_path_prefix: /
 
 forgejo_container_image: "{{ forgejo_container_image_registry_prefix }}forgejo/forgejo:{{ forgejo_container_image_tag }}"
