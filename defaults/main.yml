@@ -133,11 +133,11 @@ forgejo_container_labels_traefik_additional_response_headers_custom: {}
 #
 # Example:
 # forgejo_container_labels_additional_labels_custom: |
-#   my.label=1
-#   another.label="here"
-forgejo_container_labels_additional_labels: "{{ forgejo_container_labels_additional_labels_auto | combine(forgejo_container_labels_additional_labels_custom) }}"
-forgejo_container_labels_additional_labels_auto: {}
-forgejo_container_labels_additional_labels_custom: {}
+#   - my.label=1
+#   - another.label="here"
+forgejo_container_labels_additional_labels: "{{ forgejo_container_labels_additional_labels_auto + forgejo_container_labels_additional_labels_custom }}"
+forgejo_container_labels_additional_labels_auto: []
+forgejo_container_labels_additional_labels_custom: []
 
 # A list of extra arguments to pass to the container (`docker create` command)
 forgejo_container_extra_arguments: "{{ forgejo_container_extra_arguments_auto + forgejo_container_extra_arguments_custom }}"
