@@ -41,7 +41,7 @@
         {% if forgejo_oidc_scopes %} --scopes="{{ forgejo_oidc_scopes }}" \ {% endif %}
         {% if forgejo_oidc_required_claim_name %} --required-claim-name={{ forgejo_oidc_required_claim_name }} \ {% endif %}
         {% if forgejo_oidc_required_claim_value %} --required-claim-value={{ forgejo_oidc_required_claim_value }} \ {% endif %}
-        {% if forgejo_oidc_group_claim_name %} --group-claim-name={{ forgejo_oidc_group_claim_name }} \ {% endif %} 
+        {% if forgejo_oidc_group_claim_name %} --group-claim-name={{ forgejo_oidc_group_claim_name }} \ {% endif %}
         {% if forgejo_oidc_admin_group %} --admin-group={{ forgejo_oidc_admin_group }} \ {% endif %}
         {% if forgejo_oidc_restricted_group %} --restricted-group={{ forgejo_oidc_restricted_group }} \ {% endif %}
         {% if forgejo_oidc_group_team_map %} --group-team-map="{{ forgejo_oidc_group_team_map }}" \ {% endif %}
