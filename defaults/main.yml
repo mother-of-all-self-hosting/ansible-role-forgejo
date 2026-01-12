@@ -246,9 +246,9 @@ forgejo_config_server_minimum_key_size_check: true
 # We enable this by default if the mailer is enabled, because it makes sense to have it used for more than just transactional emails.
 forgejo_config_service_enable_notify_email: "{{ forgejo_config_mailer_enabled }}"
 
-# Controls the `FORGEJO__service__REGISTER_MANUAL_CONFIRM` environment variable.
+# Controls the `FORGEJO__service__DISABLE_REGISTRATION` environment variable.
 # Disables registration, after which only admins can create accounts for users.
-forgejo_config_service_register_manual_confirm: false
+forgejo_config_service_disable_registration: true
 
 # Controls the `FORGEJO__service__ENABLE_OPENID_SIGNIN` environment variable.
 # Enables OpenID sign-in.
