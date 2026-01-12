@@ -246,10 +246,6 @@ forgejo_config_server_minimum_key_size_check: true
 # We enable this by default if the mailer is enabled, because it makes sense to have it used for more than just transactional emails.
 forgejo_config_service_enable_notify_email: "{{ forgejo_config_mailer_enabled }}"
 
-# Controls the `FORGEJO__service__DISABLE_REGISTRATION` environment variable.
-# Disables registration, after which only admins can create accounts for users.
-forgejo_config_service_disable_registration: true
-
 # Controls the `FORGEJO__service__REGISTER_MANUAL_CONFIRM` environment variable.
 # Disables registration, after which only admins can create accounts for users.
 forgejo_config_service_register_manual_confirm: false
@@ -263,11 +259,6 @@ forgejo_config_service_enable_openid_signin: true
 # Enables OpenID sign-up.
 # See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#openid-openid
 forgejo_config_service_enable_openid_signup: "{{ not forgejo_config_service_disable_registration }}"
-
-# Controls the `FORGEJO__oauth2_client__ENABLE_AUTO_REGISTRATION` environment variable.
-# Enables automatical user accounts creation for new OAuth2 users.
-# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#oauth2-client-oauth2_client
-forgejo_config_oauth2_client_enable_auto_registration: false
 
 # Controls the RUN_USER configuration setting (`FORGEJO____RUN_USER=` environment variable).
 #
