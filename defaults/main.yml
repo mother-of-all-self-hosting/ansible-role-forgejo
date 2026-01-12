@@ -17,7 +17,7 @@ forgejo_config_path: "{{ forgejo_base_path }}/config"
 forgejo_data_path: "{{ forgejo_base_path }}/data"
 
 # renovate: datasource=docker depName=codeberg.org/forgejo/forgejo versioning=semver
-forgejo_version: 13.0.3
+forgejo_version: 13.0.4
 
 forgejo_uid: ""
 forgejo_gid: ""
@@ -132,12 +132,12 @@ forgejo_container_labels_traefik_additional_response_headers_custom: {}
 # To add your own custom labels, use `forgejo_container_labels_additional_labels_custom`
 #
 # Example:
-# forgejo_container_labels_additional_labels_custom: |
-#   my.label=1
-#   another.label="here"
-forgejo_container_labels_additional_labels: "{{ forgejo_container_labels_additional_labels_auto | combine(forgejo_container_labels_additional_labels_custom) }}"
-forgejo_container_labels_additional_labels_auto: {}
-forgejo_container_labels_additional_labels_custom: {}
+# forgejo_container_labels_additional_labels_custom:
+#   - my.label=1
+#   - another.label="here"
+forgejo_container_labels_additional_labels: "{{ forgejo_container_labels_additional_labels_auto + forgejo_container_labels_additional_labels_custom }}"
+forgejo_container_labels_additional_labels_auto: []
+forgejo_container_labels_additional_labels_custom: []
 
 # A list of extra arguments to pass to the container (`docker create` command)
 forgejo_container_extra_arguments: "{{ forgejo_container_extra_arguments_auto + forgejo_container_extra_arguments_custom }}"
@@ -250,6 +250,14 @@ forgejo_config_service_enable_notify_email: "{{ forgejo_config_mailer_enabled }}
 # Disables registration, after which only admins can create accounts for users.
 forgejo_config_service_disable_registration: true
 
+# Controls the `FORGEJO__service__REGISTER_EMAIL_CONFIRM` environment variable.
+# Enable this to ask for mail confirmation of registration. Requires Mailer to be enabled.
+forgejo_config_service_register_email_confirm: false
+
+# Controls the `FORGEJO__service__REGISTER_MANUAL_CONFIRM` environment variable.
+# Enable this to manually confirm new registrations. Requires REGISTER_EMAIL_CONFIRM to be disabled.
+forgejo_config_service_register_manual_confirm: false
+
 # Controls the `FORGEJO__service__ENABLE_OPENID_SIGNIN` environment variable.
 # Enables OpenID sign-in.
 # See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#openid-openid
@@ -259,6 +267,11 @@ forgejo_config_service_enable_openid_signin: true
 # Enables OpenID sign-up.
 # See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#openid-openid
 forgejo_config_service_enable_openid_signup: "{{ not forgejo_config_service_disable_registration }}"
+
+# Controls the `FORGEJO__oauth2_client__ENABLE_AUTO_REGISTRATION` environment variable.
+# Enables automatical user accounts creation for new OAuth2 users.
+# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#oauth2-client-oauth2_client
+forgejo_config_oauth2_client_enable_auto_registration: false
 
 # Controls the RUN_USER configuration setting (`FORGEJO____RUN_USER=` environment variable).
 #
