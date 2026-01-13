@@ -22,6 +22,7 @@ forgejo_version: 13.0.4
 forgejo_uid: ""
 forgejo_gid: ""
 
+# The scheme used for serving Forgejo.
 forgejo_scheme: https
 
 # The hostname at which Forgejo is served.
