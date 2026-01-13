@@ -76,7 +76,7 @@ forgejo_container_additional_networks_custom: []
 # forgejo_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `../templates/labels.j2` for details.
 #
-# To inject your own other container labels, see `forgejo_container_labels_additional_labels`.
+# To inject your own other container labels, see `forgejo_container_labels_additional_labels_custom`.
 forgejo_container_labels_traefik_enabled: true
 forgejo_container_labels_traefik_docker_network: ""
 forgejo_container_labels_traefik_hostname: "{{ forgejo_hostname }}"
@@ -91,7 +91,7 @@ forgejo_container_labels_traefik_tls_certResolver: default  # noqa var-naming
 # forgejo_container_labels_traefik_tcp_enabled controls whether labels to assist a Traefik reverse-proxy for SSH connections will be attached to the container.
 # See `../templates/labels.j2` for details.
 #
-# To inject your own other container labels, see `forgejo_container_labels_additional_labels`.
+# To inject your own other container labels, see `forgejo_container_labels_additional_labels_custom`.
 forgejo_container_labels_traefik_tcp_enabled: true
 forgejo_container_labels_traefik_tcp_docker_network: "{{ forgejo_container_network }}"
 forgejo_container_labels_traefik_tcp_rule: "HostSNI(`*`)"
