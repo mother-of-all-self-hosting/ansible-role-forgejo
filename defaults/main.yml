@@ -64,9 +64,6 @@ forgejo_container_http_port: 3000
 # The port number in the container
 forgejo_container_ssh_port: 22
 
-# Specify the size of the container's tmpfs volume
-forgejo_container_tmpfs_tmp_size: 128m
-
 # A list of additional container networks that the container would be connected to.
 # The playbook does not create these networks, so make sure they already exist.
 # Use this to expose this container to a reverse proxy, which runs in a different container network.
@@ -139,6 +136,9 @@ forgejo_container_labels_traefik_additional_response_headers_custom: {}
 forgejo_container_labels_additional_labels: "{{ forgejo_container_labels_additional_labels_auto + forgejo_container_labels_additional_labels_custom }}"
 forgejo_container_labels_additional_labels_auto: []
 forgejo_container_labels_additional_labels_custom: []
+
+# Specify the size of the container's tmpfs volume
+forgejo_container_tmpfs_tmp_size: 128m
 
 # A list of extra arguments to pass to the container (`docker create` command)
 forgejo_container_extra_arguments: "{{ forgejo_container_extra_arguments_auto + forgejo_container_extra_arguments_custom }}"
