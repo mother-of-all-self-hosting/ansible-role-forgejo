@@ -64,8 +64,8 @@ forgejo_container_http_port: 3000
 # The port number in the container
 forgejo_container_ssh_port: 22
 
-# The size of the container's tmpfs volume
-forgejo_container_tmpfs_size_mb: 128
+# Specify the size of the container's tmpfs volume
+forgejo_container_tmpfs_tmp_size: 128m
 
 # A list of additional container networks that the container would be connected to.
 # The playbook does not create these networks, so make sure they already exist.
