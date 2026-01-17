@@ -45,6 +45,9 @@ forgejo_container_image_self_build_repo_version: "{{ 'v' + forgejo_version if fo
 forgejo_container_image_self_build_src_files_path: "{{ forgejo_base_path }}/docker-src"
 forgejo_container_image_self_build_environment_buildplatform: linux/amd64
 
+# The base container network. It will be auto-created by this role if it doesn't exist already.
+forgejo_container_network: "{{ forgejo_identifier }}"
+
 # Controls whether the container exposes its HTTP port (tcp/3000 in the container).
 #
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:2586"), or empty string to not expose.
@@ -54,9 +57,6 @@ forgejo_container_http_host_bind_port: ""
 #
 # Takes an "<ip>:<port>" or "<port>" value (e.g. "127.0.0.1:2586"), or empty string to not expose.
 forgejo_container_ssh_host_bind_port: "{{ forgejo_container_ssh_port }}"
-
-# The base container network. It will be auto-created by this role if it doesn't exist already.
-forgejo_container_network: "{{ forgejo_identifier }}"
 
 # The port number in the container
 forgejo_container_http_port: 3000
