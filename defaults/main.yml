@@ -65,8 +65,8 @@ forgejo_container_http_port: 3000
 forgejo_container_ssh_port: 22
 
 # A list of additional container networks that the container would be connected to.
-# The playbook does not create these networks, so make sure they already exist.
-# Use this to expose this container to a reverse proxy, which runs in a different container network.
+# The role does not create these networks, so make sure they already exist.
+# Use this to expose this container to another reverse proxy, which runs in a different container network.
 forgejo_container_additional_networks: "{{ forgejo_container_additional_networks_auto + forgejo_container_additional_networks_custom }}"
 forgejo_container_additional_networks_auto: []
 forgejo_container_additional_networks_custom: []
