@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: 2023 - 2025 Slavi Pantaleev
 # SPDX-FileCopyrightText: 2024 Sergio Durigan Junior
 # SPDX-FileCopyrightText: 2025 Suguru Hirahara
+# SPDX-FileCopyrightText: 2026 Timofej Luitle
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -236,6 +237,33 @@ forgejo_config_mailer_smtp_port: 587
 forgejo_config_mailer_user: ""
 forgejo_config_mailer_passwd: ""
 
+# OAuth2 configuration (with OpenID Connect). See https://forgejo.org/docs/latest/admin/command-line/#admin-auth-add-oauth for details
+forgejo_oidc_client_enabled: false
+forgejo_oidc_client_name: "{{ forgejo_identifier }}"
+forgejo_oidc_redirect_uris: "https://{{ forgejo_hostname }}/user/oauth2/{{ forgejo_oidc_provider_name | urlencode }}/callback"
+
+forgejo_oidc_provider_name: ""
+forgejo_oidc_client_id: ""
+forgejo_oidc_client_secret: ""
+forgejo_oidc_auto_discover_url: ""
+forgejo_oidc_authorize_url: ""
+forgejo_oidc_token_url: ""
+forgejo_oidc_userinfo_url: ""
+forgejo_oidc_icon_url: ""
+forgejo_oidc_scopes: "openid email profile"
+
+forgejo_oidc_required_claim_name: ""
+forgejo_oidc_required_claim_value: ""
+forgejo_oidc_group_claim_name: "groups"
+forgejo_oidc_admin_group: "admin"
+forgejo_oidc_restricted_group: ""
+forgejo_oidc_group_team_map: ""
+forgejo_oidc_group_team_map_removal: false
+forgejo_oidc_allow_username_change: false
+forgejo_oidc_skip_local_2fa: false
+
+# Environment variables
+#
 forgejo_config_root_url: "{{ forgejo_scheme }}://{{ forgejo_hostname }}{{ forgejo_path_prefix }}"
 
 # Controls the `FORGEJO__server__SSH_LISTEN_PORT` environment variable.
