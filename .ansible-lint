@@ -2,8 +2,6 @@
 profile: production # min, basic, moderate, safety, shared, production
 
 skip_list:
-  - no-changed-when
-  - no-handler
   - yaml[line-length]
 
 offline: true
