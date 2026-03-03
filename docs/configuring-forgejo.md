@@ -159,6 +159,16 @@ ansible-playbook -i inventory/hosts setup.yml --tags=configure-oauth-forgejo
 
 If you disable `forgejo_oidc_client_enabled`, the role removes the configured provider with the name defined in `forgejo_oidc_provider_name`.
 
+The following OIDC variables are part of this role's public API surface for
+external consumers (other roles/playbooks/templates) and are not currently
+consumed by this role's task logic:
+
+- `forgejo_oidc_client_name`
+- `forgejo_oidc_redirect_uris`
+- `forgejo_oidc_authorize_url`
+- `forgejo_oidc_token_url`
+- `forgejo_oidc_userinfo_url`
+
 ### Extending the configuration
 
 There are some additional things you may wish to configure about the component.

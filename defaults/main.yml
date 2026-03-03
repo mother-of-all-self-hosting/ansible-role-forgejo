@@ -239,6 +239,9 @@ forgejo_config_mailer_passwd: ""
 
 # OAuth2 configuration (with OpenID Connect). See https://forgejo.org/docs/latest/admin/command-line/#admin-auth-add-oauth for details
 forgejo_oidc_client_enabled: false
+
+# Public API surface for playbooks/roles. These are intended for external
+# consumers and are currently not consumed by this role's task logic.
 forgejo_oidc_client_name: "{{ forgejo_identifier }}"
 forgejo_oidc_redirect_uris: "https://{{ forgejo_hostname }}/user/oauth2/{{ forgejo_oidc_provider_name | urlencode }}/callback"
 
@@ -246,6 +249,9 @@ forgejo_oidc_provider_name: ""
 forgejo_oidc_client_id: ""
 forgejo_oidc_client_secret: ""
 forgejo_oidc_auto_discover_url: ""
+
+# Public API surface for playbooks/roles (reserved for external/manual OIDC
+# integration workflows). Not currently consumed by this role's task logic.
 forgejo_oidc_authorize_url: ""
 forgejo_oidc_token_url: ""
 forgejo_oidc_userinfo_url: ""
