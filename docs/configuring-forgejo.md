@@ -129,6 +129,36 @@ See [this section](https://forgejo.org/docs/latest/admin/config-cheat-sheet/#cac
 
 If you are looking for an Ansible role for [Memcached](https://memcached.org), you can check out [ansible-role-memcache](https://app.radicle.xyz/nodes/seed.radicle.garden/rad%3Az2arPcue4GZ6G6FY3gZexsJXqHyDs) maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
 
+### Configure OAuth2/OpenID Connect login (optional)
+
+You can configure a Forgejo OAuth2 authentication source backed by an OpenID Connect provider.
+
+Add variables like these to your `vars.yml` file:
+
+```yaml
+forgejo_oidc_client_enabled: true
+
+forgejo_oidc_provider_name: "authentik"
+forgejo_oidc_client_id: "FORGEJO_OIDC_CLIENT_ID_HERE"
+forgejo_oidc_client_secret: "FORGEJO_OIDC_CLIENT_SECRET_HERE"
+forgejo_oidc_auto_discover_url: "https://sso.example.com/application/o/forgejo/.well-known/openid-configuration"
+
+# Optional
+# forgejo_oidc_scopes: "openid email profile"
+# forgejo_oidc_required_claim_name: ""
+# forgejo_oidc_required_claim_value: ""
+# forgejo_oidc_group_claim_name: "groups"
+# forgejo_oidc_admin_group: "admin"
+```
+
+To apply only this part of the configuration, run the playbook with the `configure-oauth-forgejo` tag.
+
+```sh
+ansible-playbook -i inventory/hosts setup.yml --tags=configure-oauth-forgejo
+```
+
+If you disable `forgejo_oidc_client_enabled`, the role removes the configured provider with the name defined in `forgejo_oidc_provider_name`.
+
 ### Extending the configuration
 
 There are some additional things you may wish to configure about the component.
