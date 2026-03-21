@@ -268,6 +268,14 @@ forgejo_redis_username: ""
 forgejo_redis_password: ""
 forgejo_redis_database: 0
 
+# Specify issue indexer type
+# Valid values: bleve, db, elasticsearch, meilisearch
+forgejo_environment_variables_indexer_issue_indexer_type: bleve
+
+# Specify issue indexer connection string
+# Available when forgejo_environment_variables_indexer_issue_indexer_type is `elasticsearch` or `meilisearch`
+forgejo_environment_variables_indexer_issue_indexer_conn_str: ""
+
 # Specify cache adapter
 # Valid values: memcache, memory, redis, redis-cluster, twoqueue
 # See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#cache-cache

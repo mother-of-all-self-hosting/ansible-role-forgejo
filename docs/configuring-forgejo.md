@@ -1,10 +1,10 @@
 <!--
-SPDX-FileCopyrightText: 2020 - 2024 MDAD project contributors
-SPDX-FileCopyrightText: 2020 - 2024 Slavi Pantaleev
 SPDX-FileCopyrightText: 2020 Aaron Raimist
 SPDX-FileCopyrightText: 2020 Chris van Dijk
 SPDX-FileCopyrightText: 2020 Dominik Zajac
 SPDX-FileCopyrightText: 2020 Mickaël Cornière
+SPDX-FileCopyrightText: 2020-2024 MDAD project contributors
+SPDX-FileCopyrightText: 2020-2024 Slavi Pantaleev
 SPDX-FileCopyrightText: 2022 François Darveau
 SPDX-FileCopyrightText: 2022 Julian Foad
 SPDX-FileCopyrightText: 2022 Warren Bailey
@@ -12,8 +12,8 @@ SPDX-FileCopyrightText: 2023 Antonis Christofides
 SPDX-FileCopyrightText: 2023 Felix Stupp
 SPDX-FileCopyrightText: 2023 MASH project contributors
 SPDX-FileCopyrightText: 2023 Pierre 'McFly' Marty
-SPDX-FileCopyrightText: 2024 - 2025 Suguru Hirahara
 SPDX-FileCopyrightText: 2024 Sergio Durigan Junior
+SPDX-FileCopyrightText: 2024-2026 Suguru Hirahara
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
@@ -128,6 +128,25 @@ forgejo_config_cache_host: CONNECTION_STRING_HERE
 See [this section](https://forgejo.org/docs/latest/admin/config-cheat-sheet/#cache-cache) on the official documentation for details.
 
 If you are looking for an Ansible role for [Memcached](https://memcached.org), you can check out [ansible-role-memcache](https://app.radicle.xyz/nodes/seed.radicle.garden/rad%3Az2arPcue4GZ6G6FY3gZexsJXqHyDs) maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
+
+### Configuring issue indexer (optional)
+
+By default Forgejo is configured to use `bleve` as an issue indexer, but you can use a specific indexer by adding the following configuration to your `vars.yml` file (adapt to your needs):
+
+```yaml
+# Valid values: bleve, db, elasticsearch, meilisearch
+forgejo_environment_variables_indexer_issue_indexer_type: ISSUE_INDEXER_VALUE_HERE
+
+# Specify issue indexer connection string
+forgejo_environment_variables_indexer_issue_indexer_conn_str: YOUR_ISSUE_INDEXER_CONNECTION_STRING_HERE
+```
+
+See [this section](https://forgejo.org/docs/latest/admin/config-cheat-sheet/#indexer-indexer) on the official documentation for details.
+
+>[!NOTE]
+> The default Admin API Key is sufficient for using Meilisearch on a Forgejo instance. It is [not recommended](https://www.meilisearch.com/docs/learn/security/basic_security) to use the master key for operations anything but managing other API keys.
+
+If you are looking for an Ansible role for Meilisearch, you can check out [ansible-role-meilisearch](https://github.com/mother-of-all-self-hosting/ansible-role-meilisearch) maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
 
 ### Configure OAuth2/OpenID Connect login (optional)
 
