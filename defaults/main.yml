@@ -297,6 +297,10 @@ forgejo_config_server_ssh_listen_port: 4382 # Random number to avoid collision
 # Control if minimum key size with corresponding type is checked
 forgejo_config_server_minimum_key_size_check: true
 
+# Specify database host address and port or absolute path for Unix socket
+forgejo_config_database_host_mysql: "{{ forgejo_database_mysql_hostname }}:{{ forgejo_database_mysql_port }}"
+forgejo_config_database_host_postgres: "{{ forgejo_database_postgres_hostname }}:{{ forgejo_database_postgres_port }}"
+
 # Controls the RUN_USER configuration setting (`FORGEJO____RUN_USER=` environment variable).
 #
 # This defaults to `git` in the upstream configuration.
