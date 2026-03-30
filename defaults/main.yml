@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2023, 2024 Nikita Chernyi
 # SPDX-FileCopyrightText: 2023-2025 MASH project contributors
-# SPDX-FileCopyrightText: 2023-2025 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2023-2026 Slavi Pantaleev
 # SPDX-FileCopyrightText: 2024 Sergio Durigan Junior
 # SPDX-FileCopyrightText: 2025, 2026 Suguru Hirahara
 # SPDX-FileCopyrightText: 2026 Timofej Luitle
@@ -239,6 +239,12 @@ forgejo_container_cleanup_command: |
   echo "Failed to remove stale container {{ forgejo_identifier }} after {{ forgejo_container_cleanup_timeout_seconds }} attempts" >&2;
   exit 1
 
+########################################################################
+#                                                                      #
+# database                                                             #
+#                                                                      #
+########################################################################
+
 # Specify a database driver to use
 # Valid values: mysql, postgres, sqlite
 forgejo_database_type: sqlite
@@ -261,6 +267,34 @@ forgejo_database_mysql_sslmode: disable
 # Valid values: see https://forgejo.org/docs/latest/admin/config-cheat-sheet/#database-database
 forgejo_database_postgres_sslmode: disable
 forgejo_database_name: forgejo
+
+# Control if the database connection to MySQL is made via a Unix socket
+forgejo_database_mysql_socket_enabled: true
+
+# Specify the path to the MySQL Unix socket path inside the Forgejo container
+forgejo_database_mysql_socket_path_container: /run-mysqld
+
+# Specify the path to the MySQL Unix socket path on the host (bind-mount source)
+forgejo_database_mysql_socket_path_host: ""
+
+# Control if the database connection to Postgres is made via a Unix socket
+forgejo_database_postgres_socket_enabled: true
+
+# Specify the path to the Postgres Unix socket path inside the Forgejo container
+forgejo_database_postgres_socket_path_container: /run-postgres
+
+# Specify the path to the Postgres Unix socket path on the host (bind-mount source)
+forgejo_database_postgres_socket_path_host: ""
+
+# Specify database host address and port or absolute path for Unix socket
+forgejo_config_database_host_mysql: "{{ forgejo_database_mysql_socket_path_container + '/mysqld.sock' if forgejo_database_mysql_socket_enabled else forgejo_database_mysql_hostname + ':' + forgejo_database_mysql_port }}"
+forgejo_config_database_host_postgres: "{{ forgejo_database_postgres_socket_path_container if forgejo_database_postgres_socket_enabled else forgejo_database_postgres_hostname + ':' + forgejo_database_postgres_port }}"
+
+########################################################################
+#                                                                      #
+# /database                                                            #
+#                                                                      #
+########################################################################
 
 forgejo_redis_hostname: ""
 forgejo_redis_port: 6379
@@ -304,10 +338,6 @@ forgejo_config_server_ssh_listen_port: 4382 # Random number to avoid collision
 
 # Control if minimum key size with corresponding type is checked
 forgejo_config_server_minimum_key_size_check: true
-
-# Specify database host address and port or absolute path for Unix socket
-forgejo_config_database_host_mysql: "{{ forgejo_database_mysql_hostname }}:{{ forgejo_database_mysql_port }}"
-forgejo_config_database_host_postgres: "{{ forgejo_database_postgres_hostname }}:{{ forgejo_database_postgres_port }}"
 
 # Controls the RUN_USER configuration setting (`FORGEJO____RUN_USER=` environment variable).
 #

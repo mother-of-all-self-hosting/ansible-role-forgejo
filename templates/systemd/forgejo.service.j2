@@ -1,8 +1,8 @@
 {#
-SPDX-FileCopyrightText: 2023 - 2025 Slavi Pantaleev
 SPDX-FileCopyrightText: 2023 MASH project contributors
+SPDX-FileCopyrightText: 2023-2025 Slavi Pantaleev
 SPDX-FileCopyrightText: 2024 Nikita Chernyi
-SPDX-FileCopyrightText: 2025 Suguru Hirahara
+SPDX-FileCopyrightText: 2025, 2026 Suguru Hirahara
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 #}
@@ -44,6 +44,12 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       --label-file={{ forgejo_base_path }}/labels \
       --mount type=bind,src={{ forgejo_data_path }},dst=/var/lib/gitea \
       --mount type=bind,src={{ forgejo_config_path }},dst=/etc/gitea \
+      {% if forgejo_database_type == 'mysql' and forgejo_database_mysql_socket_enabled and forgejo_database_mysql_socket_path_host != '' %}
+      --mount type=bind,src={{ forgejo_database_mysql_socket_path_host }},dst={{ forgejo_database_mysql_socket_path_container }} \
+      {% endif %}
+      {% if forgejo_database_type == 'postgres' and forgejo_database_postgres_socket_enabled and forgejo_database_postgres_socket_path_host != '' %}
+      --mount type=bind,src={{ forgejo_database_postgres_socket_path_host }},dst={{ forgejo_database_postgres_socket_path_container }} \
+      {% endif %}
       --tmpfs=/tmp:rw,noexec,nosuid,size={{ forgejo_container_tmpfs_tmp_size }} \
       {% for arg in forgejo_container_extra_arguments %}
       {{ arg }} \

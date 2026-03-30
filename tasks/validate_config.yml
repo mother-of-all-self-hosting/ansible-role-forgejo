@@ -2,6 +2,9 @@
 # SPDX-FileCopyrightText: 2023 MASH project contributors
 # SPDX-FileCopyrightText: 2025 Slavi Pantaleev
 # SPDX-FileCopyrightText: 2025 Suguru Hirahara
+# SPDX-FileCopyrightText: 2023 Julian-Samuel Gebühr
+# SPDX-FileCopyrightText: 2023 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2025, 2026 Suguru Hirahara
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -63,23 +66,63 @@
       forgejo_database_type must be 'mysql', 'postgres' or 'sqlite'
   when: "forgejo_database_type not in ['mysql', 'postgres', 'sqlite']"
 
-- name: Fail if required Forgejo + MySQL integration settings not defined
-  ansible.builtin.fail:
-    msg: >-
-      You need to define a required configuration setting (`{{ item }}`) when `forgejo_database_type` is `mysql`
-  when: "forgejo_database_type == 'mysql' and lookup('vars', item, default='') | string | length == 0"
-  with_items:
-    - forgejo_database_mysql_hostname
-    - forgejo_database_mysql_password
+- name: Run if Forgejo + MySQL integration is enabled
+  when: forgejo_database_type == 'mysql'
+  block:
+    - name: Fail if required Forgejo + MySQL integration settings not defined
+      ansible.builtin.fail:
+        msg: >-
+          You need to define a required configuration setting (`{{ item }}`) when `forgejo_database_type` is `mysql`
+      when: "lookup('vars', item, default='') | string | length == 0"
+      with_items:
+        - forgejo_database_mysql_password
 
-- name: Fail if required Forgejo + Postgres integration settings not defined
-  ansible.builtin.fail:
-    msg: >-
-      You need to define a required configuration setting (`{{ item }}`) when `forgejo_database_type` is `postgres`
-  when: "forgejo_database_type == 'postgres' and lookup('vars', item, default='') | string | length == 0"
-  with_items:
-    - forgejo_database_postgres_hostname
-    - forgejo_database_postgres_password
+    - name: Fail if MySQL socket host path for Forgejo is missing when Unix socket is enabled
+      ansible.builtin.fail:
+        msg: >-
+          You need to define `forgejo_database_mysql_socket_path_host` when `forgejo_database_type` is `mysql`
+          and `forgejo_database_mysql_socket_enabled` is `true`.
+      when: >-
+        forgejo_database_mysql_socket_enabled and
+        forgejo_database_mysql_socket_path_host | string | length == 0
+
+    - name: Fail if MySQL hostname for Forgejo is missing when Unix socket is disabled
+      ansible.builtin.fail:
+        msg: >-
+          You need to define `forgejo_database_mysql_hostname` when `forgejo_database_type` is `mysql`
+          and `forgejo_database_mysql_socket_enabled` is `false`.
+      when: >-
+        not forgejo_database_mysql_socket_enabled and
+        forgejo_database_mysql_hostname | string | length == 0
+
+- name: Run if Forgejo + Postgres integration is enabled
+  when: forgejo_database_type == 'postgres'
+  block:
+    - name: Fail if required Forgejo + Postgres integration settings not defined
+      ansible.builtin.fail:
+        msg: >-
+          You need to define a required configuration setting (`{{ item }}`) when `forgejo_database_type` is `postgres`
+      when: "lookup('vars', item, default='') | string | length == 0"
+      with_items:
+        - forgejo_database_postgres_password
+
+    - name: Fail if Postgres socket host path for Forgejo is missing when Unix socket is enabled
+      ansible.builtin.fail:
+        msg: >-
+          You need to define `forgejo_database_postgres_socket_path_host` when `forgejo_database_type` is `postgres`
+          and `forgejo_database_postgres_socket_enabled` is `true`.
+      when: >-
+        forgejo_database_postgres_socket_enabled and
+        forgejo_database_postgres_socket_path_host | string | length == 0
+
+    - name: Fail if Postgres hostname for Forgejo is missing when Unix socket is disabled
+      ansible.builtin.fail:
+        msg: >-
+          You need to define `forgejo_database_postgres_hostname` when `forgejo_database_type` is `postgres`
+          and `forgejo_database_postgres_socket_enabled` is `false`.
+      when: >-
+        not forgejo_database_postgres_socket_enabled and
+        forgejo_database_postgres_hostname | string | length == 0
 
 - name: Fail if SMTP settings are missing (and SMTP is enabled by setting host)
   ansible.builtin.fail:
