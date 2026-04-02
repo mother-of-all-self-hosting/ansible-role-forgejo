@@ -268,11 +268,13 @@ forgejo_cache_redis_socket_path_container: /run-redis
 # Specify the path to the Redis Unix socket path on the host (bind-mount source)
 forgejo_cache_redis_socket_path_host: ""
 
+forgejo_redis_socket_path: /valkey.sock
+
 forgejo_config_cache_host: |
   {%- if forgejo_config_cache_adapter == 'redis' -%}
 
   {%- if forgejo_cache_redis_socket_enabled -%}
-  redis+socket://{{ forgejo_cache_redis_socket_path_container + '/valkey.sock' }}?db={{ forgejo_redis_database }}?pool_size=100&idle_timeout=180s
+  redis+socket://{{ forgejo_cache_redis_socket_path_container + forgejo_redis_socket_path }}?db={{ forgejo_redis_database }}?pool_size=100&idle_timeout=180s
   {%- else -%}
   redis://{{ forgejo_redis_username }}:{{ forgejo_redis_password }}@{{ forgejo_redis_hostname }}:{{ forgejo_redis_port }}/{{ forgejo_redis_database }}?pool_size=100&idle_timeout=180s
   {%- endif -%}
