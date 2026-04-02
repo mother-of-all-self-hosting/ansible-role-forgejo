@@ -268,13 +268,21 @@ forgejo_cache_redis_socket_path_container: /run-redis
 # Specify the path to the Redis Unix socket path on the host (bind-mount source)
 forgejo_cache_redis_socket_path_host: ""
 
-# Specify database host address or absolute path for Unix socket
-forgejo_config_cache_host: "{{ forgejo_cache_memcache_socket_path_container + '/memcached.sock' if forgejo_cache_memcache_socket_enabled else '' }}"
-forgejo_config_cache_host_redis: |
+forgejo_config_cache_host: |
+  {%- if forgejo_config_cache_adapter == 'redis' -%}
+
   {%- if forgejo_cache_redis_socket_enabled -%}
   redis+socket://{{ forgejo_cache_redis_socket_path_container + '/valkey.sock' }}?db={{ forgejo_redis_database }}?pool_size=100&idle_timeout=180s
   {%- else -%}
   redis://{{ forgejo_redis_username }}:{{ forgejo_redis_password }}@{{ forgejo_redis_hostname }}:{{ forgejo_redis_port }}/{{ forgejo_redis_database }}?pool_size=100&idle_timeout=180s
+  {%- endif -%}
+
+  {%- elif forgejo_config_cache_adapter == 'redis-cluster' -%}
+  redis+cluster://{{ forgejo_redis_username }}:{{ forgejo_redis_password }}@{{ forgejo_redis_hostname }}:{{ forgejo_redis_port }}/{{ forgejo_redis_database }}?pool_size=100&idle_timeout=180s
+
+  {%- elif forgejo_config_cache_adapter == 'memcached' -%}
+  {{ forgejo_cache_memcache_socket_path_container + '/memcached.sock' if forgejo_cache_memcache_socket_enabled else '' }}"
+
   {%- endif -%}
 
 ########################################################################
@@ -337,6 +345,23 @@ forgejo_config_database_host_postgres: "{{ forgejo_database_postgres_socket_path
 ########################################################################
 #                                                                      #
 # /database                                                            #
+#                                                                      #
+########################################################################
+
+########################################################################
+#                                                                      #
+# session                                                              #
+#                                                                      #
+########################################################################
+
+# Specify cache adapter
+# Valid values: memory, file, redis, db, mysql, couchbase, memcache, postgres
+# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#session-session
+forgejo_config_session_provider: "{{ 'db' if forgejo_database_type != '' else 'memory' }}"
+
+########################################################################
+#                                                                      #
+# /session                                                             #
 #                                                                      #
 ########################################################################
 
