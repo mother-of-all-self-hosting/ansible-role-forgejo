@@ -263,12 +263,11 @@ forgejo_cache_memcache_socket_path_host: ""
 forgejo_cache_redis_socket_enabled: true
 
 # Specify the path to the Redis Unix socket path inside the Forgejo container
-forgejo_cache_redis_socket_path_container: /run-redis
+forgejo_cache_redis_socket_path_container: /run-valkey
+forgejo_redis_socket_path: /valkey.sock
 
 # Specify the path to the Redis Unix socket path on the host (bind-mount source)
 forgejo_cache_redis_socket_path_host: ""
-
-forgejo_redis_socket_path: /valkey.sock
 
 forgejo_config_cache_host: |
   {%- if forgejo_config_cache_adapter == 'redis' -%}
