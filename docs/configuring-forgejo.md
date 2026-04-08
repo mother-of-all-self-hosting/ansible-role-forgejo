@@ -219,6 +219,12 @@ consumed by this role's task logic:
 - `forgejo_oidc_token_url`
 - `forgejo_oidc_userinfo_url`
 
+### Integrating with Prometheus (optional)
+
+Forgejo can natively expose metrics to Prometheus.
+
+If you are looking for an integration, you can check out the MASH playbook. See [this section of the documentation on the playbook](https://github.com/mother-of-all-self-hosting/mash-playbook/blob/main/docs/services/forgejo.md#integrating-with-prometheus-optional) for more information.
+
 ### Extending the configuration
 
 There are some additional things you may wish to configure about the service.
