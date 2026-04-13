@@ -363,8 +363,8 @@ forgejo_database_postgres_socket_path_container: /run-postgres
 forgejo_database_postgres_socket_path_host: ""
 
 # Specify database host address and port or absolute path for Unix socket
-forgejo_config_database_host_mysql: "{{ forgejo_database_mysql_socket_path_container + '/mysqld.sock' if forgejo_database_mysql_socket_enabled else forgejo_database_mysql_hostname + ':' + forgejo_database_mysql_port }}"
-forgejo_config_database_host_postgres: "{{ forgejo_database_postgres_socket_path_container if forgejo_database_postgres_socket_enabled else forgejo_database_postgres_hostname + ':' + forgejo_database_postgres_port }}"
+forgejo_config_database_host_mysql: "{{ forgejo_database_mysql_socket_path_container + '/mysqld.sock' if forgejo_database_mysql_socket_enabled else forgejo_database_mysql_hostname + ':' + forgejo_database_mysql_port | string }}"
+forgejo_config_database_host_postgres: "{{ forgejo_database_postgres_socket_path_container if forgejo_database_postgres_socket_enabled else forgejo_database_postgres_hostname + ':' + forgejo_database_postgres_port | string }}"
 
 ########################################################################
 #                                                                      #
