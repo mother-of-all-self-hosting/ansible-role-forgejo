@@ -46,7 +46,7 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       --env-file={{ forgejo_base_path }}/env \
       --label-file={{ forgejo_base_path }}/labels \
       --mount type=bind,src={{ forgejo_data_path }},dst=/var/lib/gitea \
-      --mount type=bind,src={{ forgejo_config_path }},dst=/etc/gitea \
+      --mount type=bind,src={{ forgejo_config_path }},dst=/var/lib/gitea/custom/conf \
       {% if forgejo_config_cache_adapter == 'memcache' and forgejo_cache_memcache_socket_enabled and forgejo_cache_memcache_socket_path_host != '' %}
       --mount type=bind,src={{ forgejo_cache_memcache_socket_path_host }},dst={{ forgejo_cache_memcache_socket_path_container }} \
       {% endif %}
