@@ -15,7 +15,11 @@
   with_items:
     - "{{ forgejo_base_path }}"
     - "{{ forgejo_data_path }}"
-    - "{{ forgejo_config_path }}"
+
+- name: Ensure legacy Forgejo config directory does not exist
+  ansible.builtin.file:
+    path: "{{ forgejo_base_path }}/config"
+    state: absent
 
 - name: Ensure Forgejo support files installed
   ansible.builtin.template:

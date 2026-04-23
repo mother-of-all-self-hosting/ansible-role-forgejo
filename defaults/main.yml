@@ -14,7 +14,6 @@ forgejo_enabled: true
 
 forgejo_identifier: forgejo
 forgejo_base_path: "/{{ forgejo_identifier }}"
-forgejo_config_path: "{{ forgejo_base_path }}/config"
 forgejo_data_path: "{{ forgejo_base_path }}/data"
 
 # renovate: datasource=docker depName=codeberg.org/forgejo/forgejo versioning=semver
