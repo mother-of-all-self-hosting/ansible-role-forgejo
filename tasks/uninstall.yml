@@ -88,4 +88,3 @@
           "Note: As the local Forgejo instance has been removed, some old data remains in `" + forgejo_data_path + "`. Feel free to delete it."
         ]
       }}
-
