@@ -287,7 +287,7 @@ Nevertheless, upgrades may be possible with some manual work. Below is a rough g
     sed --in-place 's/OWNER TO gitea/OWNER TO forgejo/g' /mash/gitea-to-forgejo-migration/forgejo.sql
     ```
 
-4. Prepare the `forgejo` Postgres database by running the playbook: `just run-tags install-postgres`
+4. Prepare the `forgejo` Postgres database by running the playbook: `ansible-playbook -i inventory/hosts setup.yml --tags=install-postgres`
 
 5. Import the database dump into the `forgejo` Postgres database
 
@@ -306,7 +306,7 @@ Nevertheless, upgrades may be possible with some manual work. Below is a rough g
     -c 'set -o pipefail && psql -h mash-postgres -d forgejo < /out/forgejo.sql'
     ```
 
-6. Install Forgejo using the playbook, but do not start it yet: `just run-tags install-forgejo`
+6. Install Forgejo using the playbook, but do not start it yet: `ansible-playbook -i inventory/hosts setup.yml --tags=install-forgejo`
 
 7. Sync some files from Gitea by running these commands on the server
 
@@ -391,7 +391,7 @@ Nevertheless, upgrades may be possible with some manual work. Below is a rough g
 
     You can do this by:
 
-    - removing the Gitea configuration from `vars.yml` and re-running the playbook (e.g. `just run-tags setup-gitea`). This will delete the `/mash/gitea` directory
+    - removing the Gitea configuration from `vars.yml` and re-running the playbook (e.g. `ansible-playbook -i inventory/hosts setup.yml --tags=setup-gitea`). This will delete the `/mash/gitea` directory
     - dropping the `gitea` database from the Postgres server (execute `/mash/postgres/bin/cli` and run `DROP DATABASE gitea;`)
     - deleting the `/mash/gitea-to-forgejo-migration` temporary directory: `rm -rf /mash/gitea-to-forgejo-migration`
 
