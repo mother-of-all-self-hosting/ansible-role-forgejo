@@ -36,7 +36,6 @@ forgejo_container_image_tag: "{{ forgejo_version }}-rootless"
 forgejo_container_image_registry_prefix: "{{ forgejo_container_image_registry_prefix_upstream }}"
 forgejo_container_image_registry_prefix_upstream: "{{ forgejo_container_image_registry_prefix_upstream_default }}"
 forgejo_container_image_registry_prefix_upstream_default: codeberg.org/
-forgejo_container_image_force_pull: "{{ forgejo_container_image.endswith(':latest') }}"
 
 forgejo_container_image_self_build: false
 forgejo_container_image_self_build_name: "forgejo/forgejo:{{ forgejo_container_image_self_build_repo_version }}"
