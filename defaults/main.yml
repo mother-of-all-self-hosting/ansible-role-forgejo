@@ -440,6 +440,23 @@ forgejo_config_server_minimum_key_size_check: true
 # Unsetting this to an empty string makes it match. Unless you forgejo_uid accidentally hits some other user that is part of the container's /etc/passwd file.
 forgejo_config_run_user: "{{ 'git' if forgejo_uid | string == '1000' else '' }}"
 
+# Controls the `FORGEJO__security__REVERSE_PROXY_TRUSTED_PROXIES` environment variable —
+# a list of IP addresses or CIDR ranges of reverse proxies whose `X-Forwarded-For` / `X-Real-IP`
+# headers are trusted when determining the actual client IP address.
+# See: https://forgejo.org/docs/latest/admin/config-cheat-sheet/#security-security
+#
+# Requests from untrusted addresses have their forwarding headers ignored,
+# making Forgejo see the reverse proxy's IP address as the client IP address.
+#
+# The default below trusts the loopback and all private (RFC1918) address ranges,
+# which covers reverse proxies (e.g. Traefik) reaching Forgejo over a local container network.
+forgejo_config_security_reverse_proxy_trusted_proxies:
+  - 127.0.0.0/8
+  - ::1/128
+  - 10.0.0.0/8
+  - 172.16.0.0/12
+  - 192.168.0.0/16
+
 # Controls the `FORGEJO__service__DISABLE_REGISTRATION` environment variable.
 # Disables registration, after which only admins can create accounts for users.
 forgejo_config_service_disable_registration: true

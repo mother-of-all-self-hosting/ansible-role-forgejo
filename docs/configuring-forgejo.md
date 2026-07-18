@@ -219,6 +219,20 @@ consumed by this role's task logic:
 - `forgejo_oidc_token_url`
 - `forgejo_oidc_userinfo_url`
 
+### Configuring trusted reverse proxies (optional)
+
+Forgejo determines the actual client IP address from `X-Forwarded-For` / `X-Real-IP` headers only if the request comes from a trusted reverse proxy (see [`REVERSE_PROXY_TRUSTED_PROXIES`](https://forgejo.org/docs/latest/admin/config-cheat-sheet/#security-security)).
+
+Since this role typically runs Forgejo behind a reverse proxy (e.g. Traefik) on a container network, it trusts the loopback and all private (RFC1918) address ranges by default.
+
+To adjust the list of trusted proxies, add the following configuration to your `vars.yml` file (adapt to your needs):
+
+```yaml
+forgejo_config_security_reverse_proxy_trusted_proxies:
+  - 127.0.0.0/8
+  - ::1/128
+```
+
 ### Integrating with Prometheus (optional)
 
 Forgejo can natively expose metrics to Prometheus.
