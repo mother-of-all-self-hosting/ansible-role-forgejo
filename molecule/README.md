@@ -49,6 +49,10 @@ Currently these testing scenarios are available:
 
 Tests a standard Forgejo installation.
 
+### `default-valkey`
+
+Tests a standard Forgejo installation with the Valkey cache adapter.
+
 ### `mariadb`
 
 Tests a standard Forgejo installation with the MariaDB database.
