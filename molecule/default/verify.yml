@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2026 Suguru Hirahara
+# SPDX-FileCopyrightText: 2026 spatterlight
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+- name: Verify Forgejo systemd service
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Wait for Forgejo service to become active (up to 180s)
+      ansible.builtin.systemd:
+        name: forgejo.service
+      register: forgejo_service
+      until: forgejo_service.status.ActiveState == 'active'
+      retries: 36
+      delay: 5
+
+    - name: Assert Forgejo service is active
+      ansible.builtin.assert:
+        that: forgejo_service.status.ActiveState == 'active'
+        fail_msg: "forgejo.service not active ({{ forgejo_service.status.ActiveState }})"
+        success_msg: "forgejo.service is active"
+
+    - name: Retrieve Forgejo service log for debugging
+      when: forgejo_debug_service_enabled | bool
+      ansible.builtin.command:
+        cmd: journalctl -xeu forgejo.service
+      changed_when: false
+
+    - name: Wait for Forgejo HTTP endpoint to respond (up to 10m)
+      ansible.builtin.uri:
+        url: "http://localhost:3000/"
+        method: GET
+        status_code: [200, 302]
+        follow_redirects: none
+      register: forgejo_endpoint
+      until: forgejo_endpoint.status in [200, 302]
+      retries: 120
+      delay: 5
+
+    - name: Assert Forgejo HTTP endpoint responds
+      ansible.builtin.assert:
+        that: forgejo_endpoint.status in [200, 302]
+        fail_msg: "Forgejo did not respond as expected ({{ forgejo_endpoint.status | default('no response') }})"
+        success_msg: "Forgejo responded with {{ forgejo_endpoint.status }}"
+
+    - name: Show Forgejo systemd service status summary
+      ansible.builtin.debug:
+        msg:
+          - "Forgejo systemd: {{ forgejo_service.status.ActiveState }}"
+          - "Forgejo HTTP: {{ forgejo_endpoint.status }}"
