@@ -1,14 +1,22 @@
 # SPDX-FileCopyrightText: 2026 Suguru Hirahara
 # SPDX-FileCopyrightText: 2026 spatterlight
+# SPDX-FileCopyrightText: 2026 Slavi Pantaleev
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-- name: Verify Forgejo systemd service
+- name: Verify Forgejo
   hosts: all
   become: true
   gather_facts: false
   tasks:
+    # Role defaults are not in scope here, but the version that Renovate bumps
+    # lives in them and is what the API is checked against below.
+    - name: Load the Forgejo role defaults
+      ansible.builtin.include_vars:
+        file: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
+        name: forgejo_defaults
+
     - name: Wait for Forgejo service to become active (up to 180s)
       ansible.builtin.systemd:
         name: forgejo.service
@@ -29,25 +37,65 @@
         cmd: journalctl -xeu forgejo.service
       changed_when: false
 
-    - name: Wait for Forgejo HTTP endpoint to respond (up to 10m)
+    # An unconfigured Forgejo serves nothing but its installation wizard: every
+    # path renders the install form and the API is not routed at all. This
+    # endpoint answering with 200 is therefore what tells an installed Forgejo
+    # apart from a merely running binary. It also reports the version of the
+    # running Forgejo, which is asserted against the pinned version below.
+    - name: Wait for the Forgejo API to report its version (up to 10m)
       ansible.builtin.uri:
-        url: "http://localhost:3000/"
+        url: "http://localhost:3000/api/v1/version"
         method: GET
-        status_code: [200, 302]
-        follow_redirects: none
-      register: forgejo_endpoint
-      until: forgejo_endpoint.status in [200, 302]
+        return_content: true
+      register: forgejo_api_version
+      until: forgejo_api_version.status == 200
       retries: 120
       delay: 5
 
-    - name: Assert Forgejo HTTP endpoint responds
+    # The reported version carries an upstream suffix (`16.0.3+gitea-1.22.0`).
+    - name: Assert the running Forgejo is the version this role installs
       ansible.builtin.assert:
-        that: forgejo_endpoint.status in [200, 302]
-        fail_msg: "Forgejo did not respond as expected ({{ forgejo_endpoint.status | default('no response') }})"
-        success_msg: "Forgejo responded with {{ forgejo_endpoint.status }}"
+        that: forgejo_api_version.json.version.split('+') | first == forgejo_defaults.forgejo_version
+        fail_msg: "Forgejo reports {{ forgejo_api_version.json.version }}, expected {{ forgejo_defaults.forgejo_version }}"
+        success_msg: "Forgejo reports {{ forgejo_api_version.json.version }}"
 
-    - name: Show Forgejo systemd service status summary
+    # Forgejo pings its data-stores on demand here, so this exercises the
+    # database and the cache adapter that the scenario wired up, rather than
+    # just the fact that the container came up.
+    - name: Query the Forgejo health endpoint
+      ansible.builtin.uri:
+        url: "http://localhost:3000/api/healthz"
+        method: GET
+        return_content: true
+      register: forgejo_healthz
+
+    - name: Assert Forgejo reports itself and its data-stores as healthy
+      ansible.builtin.assert:
+        that:
+          - forgejo_healthz.json.status == 'pass'
+          - forgejo_healthz.json.checks['database:ping'] | map(attribute='status') | unique | list == ['pass']
+          - forgejo_healthz.json.checks['cache:ping'] | map(attribute='status') | unique | list == ['pass']
+        fail_msg: "Forgejo is not healthy: {{ forgejo_healthz.json }}"
+        success_msg: "Forgejo, its database and its cache are healthy"
+
+    - name: Retrieve the Forgejo web interface
+      ansible.builtin.uri:
+        url: "http://localhost:3000/"
+        method: GET
+        status_code: [200]
+        return_content: true
+      register: forgejo_endpoint
+
+    - name: Assert the Forgejo web interface is served
+      ansible.builtin.assert:
+        that: "'Forgejo' in forgejo_endpoint.content"
+        fail_msg: "The Forgejo web interface did not render as expected"
+        success_msg: "The Forgejo web interface is served"
+
+    - name: Show Forgejo verification summary
       ansible.builtin.debug:
         msg:
           - "Forgejo systemd: {{ forgejo_service.status.ActiveState }}"
-          - "Forgejo HTTP: {{ forgejo_endpoint.status }}"
+          - "Forgejo version: {{ forgejo_api_version.json.version }}"
+          - "Forgejo health: {{ forgejo_healthz.json.checks }}"
+          - "Forgejo web interface: {{ forgejo_endpoint.status }}"

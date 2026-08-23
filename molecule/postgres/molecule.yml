@@ -40,6 +40,13 @@ provisioner:
         forgejo_container_http_host_bind_port: 3000
         forgejo_database_type: postgres
 
+        # Without this, Forgejo comes up on its web installation wizard, where
+        # no API is routed and every page merely renders the install form.
+        # Locking the installation puts Forgejo into the state a real instance
+        # is in after setup, so that the verification exercises Forgejo itself.
+        forgejo_environment_variables_additional_variables: |
+          FORGEJO__security__INSTALL_LOCK=true
+
         # Variables required for Forgejo to connect to the Postgres database (via Unix socket)
         forgejo_database_postgres_username: my_database_username
         forgejo_database_postgres_password: my_database_password

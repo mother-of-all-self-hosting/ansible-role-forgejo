@@ -41,6 +41,13 @@ provisioner:
         forgejo_database_type: sqlite
         forgejo_config_cache_adapter: redis
 
+        # Without this, Forgejo comes up on its web installation wizard, where
+        # no API is routed and every page merely renders the install form.
+        # Locking the installation puts Forgejo into the state a real instance
+        # is in after setup, so that the verification exercises Forgejo itself.
+        forgejo_environment_variables_additional_variables: |
+          FORGEJO__security__INSTALL_LOCK=true
+
         # Variables required for Forgejo to connect to the Valkey data-store
         forgejo_cache_redis_socket_path_host: "{{ valkey_run_path }}"
         forgejo_systemd_required_services_list_custom:
