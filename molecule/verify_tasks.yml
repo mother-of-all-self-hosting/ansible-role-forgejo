@@ -87,7 +87,7 @@
     fail_msg: "The Forgejo web interface did not render as expected"
     success_msg: "The Forgejo web interface is served"
 
-- name: Show Forgejo verification summary
+- name: Show the Forgejo verification summary
   ansible.builtin.debug:
     msg:
       - "Forgejo systemd: {{ forgejo_service.status.ActiveState }}"
