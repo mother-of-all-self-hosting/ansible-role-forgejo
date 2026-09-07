@@ -36,8 +36,7 @@
 # An unconfigured Forgejo serves nothing but its installation wizard: every
 # path renders the install form and the API is not routed at all. This
 # endpoint answering with 200 is therefore what tells an installed Forgejo
-# apart from a merely running binary. It also reports the version of the
-# running Forgejo, which is asserted against the pinned version below.
+# apart from a merely running binary.
 - name: Wait for the Forgejo API to report its version (up to 10m)
   ansible.builtin.uri:
     url: "http://localhost:3000/api/v1/version"
