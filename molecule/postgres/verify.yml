@@ -9,6 +9,12 @@
   hosts: all
   become: true
   gather_facts: false
+
+  vars:
+    forgejo_verify_units:
+      - forgejo.service
+      - postgres.service
+
   tasks:
     - name: Verify that Forgejo works
       block:

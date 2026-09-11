@@ -13,13 +13,14 @@
     file: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
     name: forgejo_defaults
 
-- name: Wait for the Forgejo systemd service to become active (up to 180s)
+- name: Wait for the Forgejo systemd services to become active (up to 180s each)
   ansible.builtin.systemd_service:
-    name: forgejo.service
-  register: forgejo_service
-  until: forgejo_service.status.ActiveState == 'active'
+    name: "{{ item }}"
+  register: forgejo_services
+  until: forgejo_services.status.ActiveState == 'active'
   retries: 36
   delay: 5
+  loop: "{{ forgejo_verify_units }}"
   # So that giving up is reported by the assertion below rather than as a
   # wall of systemd unit properties.
   failed_when: false
@@ -27,17 +28,20 @@
 # `Restart=always` in the systemd unit means that even a container which crashes
 # and gets restarted reads as active here, so this is a precondition rather than
 # a result.
-- name: Assert the Forgejo systemd service is active
+- name: Assert the Forgejo systemd services are active
   ansible.builtin.assert:
-    that: forgejo_service.status.ActiveState == 'active'
-    fail_msg: "forgejo.service is not active ({{ forgejo_service.status.ActiveState }})"
-    success_msg: "forgejo.service is active"
+    that: forgejo_services.results | map(attribute='status.ActiveState') | unique | list == ['active']
+    fail_msg: >-
+      Not every service is active:
+      {{ dict(forgejo_verify_units | zip(forgejo_services.results | map(attribute='status.ActiveState'))) }}
+    success_msg: "Every systemd service is active"
 
-- name: Retrieve the Forgejo systemd service log for debugging
+- name: Retrieve the Forgejo systemd services log for debugging
   when: forgejo_debug_service_enabled | bool
   ansible.builtin.command:
-    cmd: journalctl --no-pager --output=cat --unit=forgejo.service
+    cmd: "journalctl --no-pager --output=cat --unit={{ item }}"
   changed_when: false
+  loop: "{{ forgejo_verify_units }}"
 
 # An unconfigured Forgejo serves nothing but its installation wizard: every
 # path renders the install form and the API is not routed at all. This
@@ -96,7 +100,7 @@
 - name: Show the Forgejo verification summary
   ansible.builtin.debug:
     msg:
-      - "Forgejo systemd: {{ forgejo_service.status.ActiveState }}"
+      - "Forgejo systemd: {% for unit, state in forgejo_verify_units | zip(forgejo_services.results | map(attribute='status.ActiveState')) %}{{ unit }} ({{ state }}){% if not loop.last %}, {% endif %}{% endfor %}"
       - "Forgejo version: {{ forgejo_api_version.json.version }}"
       - "Forgejo health: {{ forgejo_healthz.json.checks }}"
       - "Forgejo web interface: {{ forgejo_endpoint.status }}"
