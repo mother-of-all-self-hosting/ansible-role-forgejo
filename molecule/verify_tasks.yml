@@ -67,21 +67,27 @@
 # Forgejo pings its data-stores on demand here, so this exercises the
 # database and the cache adapter that the scenario wired up, rather than
 # just the fact that the container came up.
-- name: Query the Forgejo health endpoint
+- name: Wait for Forgejo to report itself healthy (up to 180s)
   ansible.builtin.uri:
     url: "http://localhost:3000/api/healthz"
     method: GET
     return_content: true
-  register: forgejo_healthz
+  register: forgejo_health
+  until: forgejo_health.status == 200 and forgejo_health.json.status == 'pass'
+  retries: 36
+  delay: 5
+  # So that giving up is reported by the assertion below rather than as a
+  # wall of systemd unit properties.
+  failed_when: false
 
 - name: Assert Forgejo reports itself and its data-stores as healthy
   ansible.builtin.assert:
     that:
-      - forgejo_healthz.json.status == 'pass'
-      - forgejo_healthz.json.checks['database:ping'] | map(attribute='status') | unique | list == ['pass']
-      - forgejo_healthz.json.checks['cache:ping'] | map(attribute='status') | unique | list == ['pass']
-    fail_msg: "Forgejo is not healthy: {{ forgejo_healthz.json }}"
-    success_msg: "Forgejo, its database and its cache are healthy"
+      - forgejo_health.json.status == 'pass'
+      - forgejo_health.json.checks['database:ping'] | map(attribute='status') | unique | list == ['pass']
+      - forgejo_health.json.checks['cache:ping'] | map(attribute='status') | unique | list == ['pass']
+    fail_msg: "Forgejo did not report itself healthy: {{ forgejo_health.json | default('no response') }}"
+    success_msg: "Forgejo reports itself, its database and its cache healthy"
 
 - name: Retrieve the Forgejo web interface
   ansible.builtin.uri:
@@ -102,5 +108,5 @@
     msg:
       - "Forgejo systemd: {% for unit, state in forgejo_verify_units | zip(forgejo_services.results | map(attribute='status.ActiveState')) %}{{ unit }} ({{ state }}){% if not loop.last %}, {% endif %}{% endfor %}"
       - "Forgejo version: {{ forgejo_api_version.json.version }}"
-      - "Forgejo health: {{ forgejo_healthz.json.checks }}"
+      - "Forgejo health: {{ forgejo_health.json.checks }}"
       - "Forgejo web interface: {{ forgejo_endpoint.status }}"
