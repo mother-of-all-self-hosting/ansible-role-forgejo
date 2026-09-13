@@ -31,6 +31,7 @@ provisioner:
       all:
         # Helper variables
         forgejo_debug_service_enabled: false
+        forgejo_restarts_check_enabled: true
 
         # Variables for Forgejo
         forgejo_uid: 1000
