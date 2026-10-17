@@ -74,7 +74,7 @@ After adjusting the hostname, make sure to adjust your DNS records to point the 
 
 #### Specify database (optional)
 
-You can specify a database used by Forgejo. By default it is configured to use SQLite.
+You can specify a database used by Forgejo. By default it is configured to use SQLite. The SQLite database is stored in the directory specified with `forgejo_data_path`.
 
 To use Postgres, add the following configuration to your `vars.yml` file:
 
