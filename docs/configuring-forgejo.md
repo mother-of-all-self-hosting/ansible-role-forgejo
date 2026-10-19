@@ -84,7 +84,7 @@ forgejo_database_type: postgres
 
 Set `mysql` to use a MySQL compatible database.
 
-For other settings, check variables such as `forgejo_database_mysql_*` and `forgejo_database_postgres_*` on [`defaults/main.yml`](../defaults/main.yml).
+For other settings, check variables such as `forgejo_database_*` on [`defaults/main.yml`](../defaults/main.yml).
 
 #### Configuring connection to the database server (optional)
 
