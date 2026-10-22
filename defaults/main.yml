@@ -327,7 +327,7 @@ forgejo_config_cache_host: |
 
 # Specify a database driver to use
 # Valid values: mysql, postgres, sqlite
-forgejo_database_type: sqlite
+forgejo_database_type: ""
 
 # Specify database configuration
 forgejo_database_mysql_hostname: ""
