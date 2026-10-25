@@ -238,9 +238,7 @@ forgejo_config_security_reverse_proxy_trusted_proxies:
 
 ### Integrating with Prometheus (optional)
 
-Forgejo can natively expose metrics to Prometheus.
-
-If you are looking for an integration, you can check out the MASH playbook. Refer to [this section of the documentation on the playbook](https://github.com/mother-of-all-self-hosting/mash-playbook/blob/main/components/forgejo/README.md#integrating-with-prometheus-optional) for more information.
+Forgejo can natively expose metrics to Prometheus. If you are looking for an integration, you can check out the MASH Ansible playbook. Please refer to the service's documentation over there for more information.
 
 ### Extending the configuration
 
