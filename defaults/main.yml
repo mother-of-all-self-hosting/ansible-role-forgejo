@@ -302,11 +302,11 @@ forgejo_config_cache_host: |
   {%- if forgejo_cache_redis_socket_enabled -%}
   redis+socket://{{ forgejo_cache_redis_socket_path_container + forgejo_redis_socket_path }}?db={{ forgejo_redis_database }}?pool_size=100&idle_timeout=180s
   {%- else -%}
-  redis://{{ forgejo_redis_username }}:{{ forgejo_redis_password }}@{{ forgejo_redis_hostname }}:{{ forgejo_redis_port }}/{{ forgejo_redis_database }}?pool_size=100&idle_timeout=180s
+  redis://{{ forgejo_redis_username | urlencode | replace('/', '%2F') }}:{{ forgejo_redis_password | urlencode | replace('/', '%2F') }}@{{ forgejo_redis_hostname }}:{{ forgejo_redis_port }}/{{ forgejo_redis_database }}?pool_size=100&idle_timeout=180s
   {%- endif -%}
 
   {%- elif forgejo_config_cache_adapter == 'redis-cluster' -%}
-  redis+cluster://{{ forgejo_redis_username }}:{{ forgejo_redis_password }}@{{ forgejo_redis_hostname }}:{{ forgejo_redis_port }}/{{ forgejo_redis_database }}?pool_size=100&idle_timeout=180s
+  redis+cluster://{{ forgejo_redis_username | urlencode | replace('/', '%2F') }}:{{ forgejo_redis_password | urlencode | replace('/', '%2F') }}@{{ forgejo_redis_hostname }}:{{ forgejo_redis_port }}/{{ forgejo_redis_database }}?pool_size=100&idle_timeout=180s
 
   {%- elif forgejo_config_cache_adapter == 'memcached' -%}
   {{ forgejo_cache_memcache_socket_path_container + '/memcached.sock' if forgejo_cache_memcache_socket_enabled else '' }}"
