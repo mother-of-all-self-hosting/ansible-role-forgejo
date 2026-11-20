@@ -50,9 +50,6 @@
   with_items:
     - forgejo_uid
     - forgejo_gid
-    - forgejo_hostname
-    - forgejo_path_prefix
-    - forgejo_container_network
     - forgejo_database_type
 
 - name: Fail if Forgejo cache adapter type is invalid
